@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       // home: SplashScreen(),
       initialRoute:
-          Routes.HOME, // This should match the constant for the home route
+          Routes.LOGIN, // This should match the constant for the home route
       getPages: AppPages.routes,
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qr_scanner_overlay/qr_scanner_overlay.dart';
+import 'package:tracking_system_app/controller/life_cycle_controller.dart';
 import 'package:tracking_system_app/modules/qr_scan/controller/qr_scan_controller.dart';
 import 'package:tracking_system_app/style/app_var.dart';
 import 'package:tracking_system_app/widgets/general/main_loading_widget.dart';
@@ -20,8 +21,8 @@ class QrScanView extends StatelessWidget {
     return SafeArea(
       child: PopScope(
         onPopInvokedWithResult: (popDisposition, result) async {
-          
           qrController.resetOrientation();
+          await qrController.disposeCamera();
           // SystemChrome.setPreferredOrientations([
           //   DeviceOrientation.portraitUp,
           //   DeviceOrientation.portraitDown,
@@ -48,6 +49,8 @@ class QrScanView extends StatelessWidget {
                 // ]);
                 // await _resetOrientation(); // Reset orientation when leaving
                 //  Get.delete<QrScanController>();
+                final liefCycleController = Get.find<LifecycleController>();
+                liefCycleController.exitQrScanView();
                 Get.back();
               },
               icon: Icon(

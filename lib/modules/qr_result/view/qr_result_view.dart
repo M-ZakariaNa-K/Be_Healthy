@@ -73,7 +73,8 @@ class QRResultPage extends StatelessWidget {
                       SizedBox(
                         width: 220,
                         child: Text(
-                          qrController.code.value,
+                          "${qrController.qrScanModel.value.customerName}, ${qrController.qrScanModel.value.bagId}",
+                          // qrController.code.value,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: AppVar.primary,
@@ -104,7 +105,8 @@ class QRResultPage extends StatelessWidget {
                                       'copyButton'), // Key to distinguish widgets
                                   onTap: () async {
                                     await Clipboard.setData(ClipboardData(
-                                        text: qrController.code.value));
+                                        text:
+                                            "${qrController.qrScanModel.value.customerName}, ${qrController.qrScanModel.value.bagId}"));
                                     qrController.showLottieAnimationFunction();
                                   },
                                   child: AnimatedOpacity(

@@ -3,8 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:tracking_system_app/controller/life_cycle_controller.dart';
+import 'package:tracking_system_app/model/qr_scan_model.dart';
+import 'package:tracking_system_app/network_util.dart';
 import 'package:tracking_system_app/routes/app_pages.dart';
 import 'package:tracking_system_app/shared/shared.dart';
+import 'package:tracking_system_app/widgets/toast/custom_toast.dart';
 
 //NOTE FROM ZAKARIA: if u want to go to any page from the scan page, u should make this:
 /*qrController.disposeCamera(); Get.back(); */
@@ -15,17 +19,20 @@ class QrScanController extends GetxController {
   RxBool isScanCompleted = false.obs;
   RxBool isFlashOn = false.obs;
   RxString code = "".obs;
+  Rx<QrScanDataModel> qrScanModel = QrScanDataModel(
+    customerName: "",
+    bagId: 0,
+    newState: "",
+  ).obs;
+  RxString customerName = "".obs;
+  RxInt bagId = 0.obs;
   RxString scanningKind = "".obs;
   MobileScannerController? cameraController;
   RxBool isLoading = false.obs;
   RxBool showLottieAnimationInResult = false.obs;
 
-  // @override
-  // void onReady() {
-  //   super.onReady();
+  // Add this to track the current view for LIFECICLE CONTOROLLER
 
-  //   startCamera();
-  // }
   // Lock orientation to portrait when the page is built
   Future<void> lockOrientation() async {
     SystemChrome.setPreferredOrientations([
@@ -35,6 +42,8 @@ class QrScanController extends GetxController {
 
   // // Unlock orientation when leaving   the page
   Future<void> resetOrientation() async {
+    final liefCycleController = Get.find<LifecycleController>();
+    liefCycleController.exitQrScanView();
     isFlashOn.value = false;
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -120,45 +129,37 @@ class QrScanController extends GetxController {
     await cameraController?.start();
   } //=============================Server side================================================================
 
-  Future<void> makePostRequest(String qrCodeData) async {
+  Future<void> sendToServerSide(String qrCodeData) async {
     try {
       isLoading.value = true; // Show loading indicator
       //DELETE FUTURE DELAYED WHEN U LINK WITH API
-      Future.delayed(const Duration(seconds: 5), () {
-        isLoading.value = false; // Hide loading indicator
-        // Delay the navigation to the next frame to avoid calling setState() during build
-        // WidgetsBinding.instance.addPostFrameCallback((_) {
-        // });
+      final response = await $.getQrScan(
+        code.value,
+      );
+
+      if (response != null) {
+        isScanCompleted.value = false;
+        qrScanModel.value = QrScanDataModel.fromJson(response["data"]);
+        print(response);
         Get.toNamed(Routes.QR_RESULT);
-      });
+      }
 
-      // If you're using a server-side API, uncomment the following lines and replace '/your-endpoint' with your actual endpoint URL
-      // final response = await $.post('/your-endpoint', body: {
-      //   'qr_data': qrCodeData,
-      //   // Add other necessary data here
-      // });
-
-      // isLoading.value = false; // Hide loading indicator
-
-      // if (response != null && response['status'] == 'success') {
-      //   // Navigate to QR result page
-      //   Get.toNamed(Routes.QR_RESULT);
-      // } else {
-      //   // Show error Snackbar on failure
-      //   Get.snackbar('Error', 'Failed to process the QR code. Please try again.');
-      // }
-    } catch (e) {
       isLoading.value = false;
-      Get.snackbar('Error', 'An unexpected error occurred. Please try again.');
+    } catch (e) {
+      isScanCompleted.value = false;
+      isLoading.value = false;
+      CustomToast.errorToast("Error", "Error because : ${e.toString()}");
+    } finally {
+      isLoading.value = false;
     }
   }
 
   void onDetectBarcode(String qrData) {
-    if (!isScanCompleted.value) {
+    if (!isScanCompleted.value && !isLoading.value) {
       code.value = qrData;
-      isScanCompleted.value = true;
+
       // Make POST request with scanned QR data
-      makePostRequest(qrData);
+      sendToServerSide(qrData);
     }
   }
 

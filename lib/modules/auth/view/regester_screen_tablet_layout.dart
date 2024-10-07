@@ -190,16 +190,16 @@ class RegesterScreenTapletLayout extends GetView<RegisterController> {
                               _buildRadioButtonGroup("Jop Title",
                                   controller.jopTitleController, context),
 
-                              CustomeLoginTextFormField(
-                                isFilledTextFild: false,
-                                filledTextFildData: "",
-                                prefixIcon: null,
-                                inputType: TextInputType.text,
-                                hintText: 'Job Number',
-                                title: 'Job Number',
-                                controller: controller.jobNumberController,
-                                validator: null,
-                              ),
+                               CustomeLoginTextFormField(
+                            isFilledTextFild: false,
+                            filledTextFildData: "",
+                            prefixIcon: null,
+                            inputType: TextInputType.text,
+                            hintText: 'Employee Number',
+                            title: 'Employee Number',
+                            controller: controller.employeeNumberController,
+                            validator: null,
+                          ),
                               CustomeLoginTextFormField(
                                 isFilledTextFild: false,
                                 filledTextFildData: "",

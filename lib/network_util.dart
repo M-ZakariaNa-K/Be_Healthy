@@ -12,11 +12,39 @@ import 'package:tracking_system_app/style/app_var.dart';
 
 class $ {
   static String? _token;
+  static String? role;
   static const int _RESPONSE_STATUS_AUTHORIZATION_ERROR = 401;
   //change th the endpoint ZAK============================
 
-  static String _URL = "https://mbl-solution.com/api";
-  static String BASE_URL = "https://mbl-solution.com";
+  static String _URL = "http://api.behealthy-dxb.com/api";
+  static String BASE_URL = "http://api.behealthy-dxb.com";
+
+  static Future<dynamic> getQrScan(String url,
+      {bool redirectIfAuthFail = true}) async {
+    try {
+      var response = await Dio().get(url,
+          options: Options(
+              headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                'Accept': 'application/json',
+                'language': AppVar
+                    .LANG_CODE, // It's too important to pass empty string if null so server returns ip lang,
+                'Authorization': 'Bearer $_token',
+                'mobile-agent': '1',
+                // 'version-number': AppVar.VERSION_NUMBER.toString(),
+              },
+              validateStatus: (v) {
+                return v != null && v >= 200 && v <= 420;
+              }));
+      // if (response.statusCode == _RESPONSE_STATUS_AUTHORIZATION_ERROR)
+      // return resetUser(redirect: redirectIfAuthFail);
+      return responseHandler(response);
+    } catch (e) {
+      Alert.hideProgress();
+      //Alert.toast("Error connecting server! try again later.");
+      return null;
+    }
+  }
 
   static Future<dynamic> get(String url,
       {bool redirectIfAuthFail = true}) async {
@@ -30,7 +58,7 @@ class $ {
                     .LANG_CODE, // It's too important to pass empty string if null so server returns ip lang,
                 'Authorization': 'Bearer $_token',
                 'mobile-agent': '1',
-                'version-number': AppVar.VERSION_NUMBER.toString(),
+                // 'version-number': AppVar.VERSION_NUMBER.toString(),
               },
               validateStatus: (v) {
                 return v != null && v >= 200 && v <= 420;
@@ -64,8 +92,12 @@ class $ {
               validateStatus: (v) {
                 return v != null && v >= 200 && v <= 420;
               }));
-      if (response.statusCode == _RESPONSE_STATUS_AUTHORIZATION_ERROR)
-        return resetUser();
+      print(response);
+      //================Zak edition =================
+
+      // if (response.statusCode == _RESPONSE_STATUS_AUTHORIZATION_ERROR)
+      // return resetUser();
+
       return responseHandler(response);
     } catch (e) {
       Alert.hideProgress();
@@ -90,13 +122,15 @@ class $ {
                     .LANG_CODE, // It's too important to pass empty string if null so server returns ip lang,
                 'Authorization': 'Bearer $_token',
                 'mobile-agent': '1',
-                'version-number': AppVar.VERSION_NUMBER.toString(),
+                // 'version-number': AppVar.VERSION_NUMBER.toString(),
               },
               validateStatus: (v) {
                 return v != null && v >= 200 && v <= 420;
               }));
-      if (response.statusCode == _RESPONSE_STATUS_AUTHORIZATION_ERROR)
-        return resetUser();
+      //================Zak edition =================
+
+      // if (response.statusCode == _RESPONSE_STATUS_AUTHORIZATION_ERROR)
+      //   return resetUser();
       return responseHandler(response);
     } catch (e) {
       Alert.hideProgress();
@@ -117,13 +151,14 @@ class $ {
                     'en', // It's too important to pass empty string if null so server returns ip lang,
                 'Authorization': 'Bearer $_token',
                 'mobile-agent': '1',
-                'version-number': AppVar.VERSION_NUMBER.toString(),
+                // 'version-number': AppVar.VERSION_NUMBER.toString(),
               },
               validateStatus: (v) {
                 return v != null && v >= 200 && v <= 420;
               }));
-      if (response.statusCode == _RESPONSE_STATUS_AUTHORIZATION_ERROR)
-        return resetUser();
+      //================Zak edition =================
+      // if (response.statusCode == _RESPONSE_STATUS_AUTHORIZATION_ERROR)
+      //   return resetUser();
       return responseHandler(response);
     } catch (e) {
       Alert.hideProgress();
@@ -138,6 +173,15 @@ class $ {
     if (statusCode == 400) {
       dynamic body = response.data;
       Alert.infoDialog(message: body['message']);
+    }
+    //========zak edit
+    else if (statusCode == 401 && _token == null) {
+      dynamic body = response.data;
+      Alert.infoDialog(
+          message: "${body['message']}. Check your phone number or password");
+    } else if (statusCode == 401 && _token != null) {
+      dynamic body = response.data;
+      Alert.infoDialog(message: "${body['message']}.");
     } else if (statusCode != null && statusCode >= 200 && statusCode < 300) {
       return response.data;
     } else if (statusCode == 408) {
@@ -155,61 +199,70 @@ class $ {
   }
 
   static resetUser({bool redirect = true}) {
-    post('/logout');
+    post('users/logout');
     SharedPreferences.getInstance().then((_pref) {
       _pref.remove('token');
     });
+    _token = "";
+    role = "";
     if (redirect) {
       Get.delete<HomeController>();
       Get.offAllNamed(Routes.LOGIN);
+      Alert.toast('Logged out successfully');
     }
 
     return null;
   }
 
-  static Future setConnectionParams({required String token}) async {
+  static Future setConnectionParams(
+      {required String token, required String userRole}) async {
+    _URL = "http://api.behealthy-dxb.com/api";
+    BASE_URL = "http://api.behealthy-dxb.com";
+
     _token = token;
+    role = userRole;
+
     SharedPreferences _pref = await SharedPreferences.getInstance();
     _pref.setString('token', _token!);
     return;
   }
 
-  static Future<bool> loadConnectionParams() async {
-    SharedPreferences _pref = await SharedPreferences.getInstance();
-    if (_pref.containsKey('token')) {
-      _token = _pref.getString('token');
-      var test = await get('notifications',
-          redirectIfAuthFail: false); //JUST FOR TEST TOKEN
-      if (test != null) return true;
-    }
-    return false;
-  }
+  // static Future<bool> loadConnectionParams() async {
+  //   SharedPreferences _pref = await SharedPreferences.getInstance();
+  //   if (_pref.containsKey('token')) {
+  //     _token = _pref.getString('token');
+  //     var test = await get('notifications',
+  //         redirectIfAuthFail: false); //JUST FOR TEST TOKEN
+  //     if (test != null) return true;
+  //   }
+  //   return false;
+  // }
 
   static void alertAndExit(String message) async {
     await Alert.confirmDialog(message: message, onOk: () async {});
   }
 
-  static Future flipIfDemo({String? email}) async {
-    bool enabled = false;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (email != null) {
-      enabled = email.contains('solutions-time.com');
-    } else if (prefs.containsKey('demo')) {
-      enabled = prefs.getBool('demo')!;
-    }
+  // static Future flipIfDemo({String? email}) async {
+  //   // bool enabled = false;
+  //   // SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   // if (email != null) {
+  //   //   enabled = email.contains('solutions-time.com');
+  //   // } else if (prefs.containsKey('demo')) {
+  //   //   enabled = prefs.getBool('demo')!;
+  //   // }
 
-    if (!enabled) {
-      //change th the endpoint ZAK============================
-      _URL = "https://mbl-solution.com/api";
-      BASE_URL = "https://mbl-solution.com";
-    } else {
-      _URL = "https://demo.mbl-solution.com/api";
-      BASE_URL = "https://demo.mbl-solution.com";
-      Alert.toast('Demo mode enabled');
-    }
+  //   // if (!enabled) {
+  //     //change th the endpoint ZAK============================
+  //     _URL = "http://behealthy.test/api";
+  //     BASE_URL = "http://behealthy.test";
+  //   // } else {
+  //     // _URL = "http://behealthy.test/api";
+  //     // BASE_URL = "http://behealthy.test";
+  //     // Alert.toast('Demo mode enabled');
+  //   // }
 
-    prefs.setBool('demo', enabled);
-  }
+  //   // prefs.setBool('demo', enabled);
+  // }
 
   static String resolveUrl(String url) {
     url = url[0] == '/' ? url.substring(1) : url;

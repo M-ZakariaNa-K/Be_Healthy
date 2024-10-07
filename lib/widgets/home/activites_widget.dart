@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:tracking_system_app/controller/life_cycle_controller.dart';
 import 'package:tracking_system_app/modules/home/controller/home_controller.dart';
 import 'package:tracking_system_app/modules/qr_scan/controller/qr_scan_controller.dart';
 import 'package:tracking_system_app/routes/app_pages.dart';
@@ -62,6 +63,10 @@ class ActivitesWidget extends StatelessWidget {
                     qrScanController.scanningKind.value = "check_in";
                     // Lock orientation to portrait when the QRScan view is initialized
                     qrScanController.lockOrientation();
+                    // -===============U can see why i put this command in LifeCycleController.===========
+                    final liefCycleController = Get.find<LifecycleController>();
+                    liefCycleController.enterQrScanView();
+
                     Get.toNamed(Routes.QR_SCANN);
                   },
                   homeController: homeController,
@@ -76,6 +81,8 @@ class ActivitesWidget extends StatelessWidget {
                     final qrScanController = Get.put(QrScanController());
                     qrScanController.scanningKind.value = "delivered";
                     qrScanController.lockOrientation();
+                              final liefCycleController = Get.find<LifecycleController>();
+                    liefCycleController.enterQrScanView();
 
                     Get.toNamed(Routes.QR_SCANN);
                   },
@@ -91,6 +98,8 @@ class ActivitesWidget extends StatelessWidget {
                     final qrScanController = Get.put(QrScanController());
                     qrScanController.scanningKind.value = "check_out";
                     qrScanController.lockOrientation();
+                    final liefCycleController = Get.find<LifecycleController>();
+                    liefCycleController.enterQrScanView();
 
                     Get.toNamed(Routes.QR_SCANN);
                   },

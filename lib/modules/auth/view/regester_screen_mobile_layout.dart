@@ -200,9 +200,9 @@ class RegesterScreenMobileLayout extends GetView<RegisterController> {
                             filledTextFildData: "",
                             prefixIcon: null,
                             inputType: TextInputType.text,
-                            hintText: 'Job Number',
-                            title: 'Job Number',
-                            controller: controller.jobNumberController,
+                            hintText: 'Employee Number',
+                            title: 'Employee Number',
+                            controller: controller.employeeNumberController,
                             validator: null,
                           ),
                           CustomeLoginTextFormField(

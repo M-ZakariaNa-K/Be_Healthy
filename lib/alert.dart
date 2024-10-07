@@ -25,12 +25,12 @@ class Alert {
         child: Wrap(
           children: [
             Container(
-              padding:const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                const  SizedBox(height: 25.0),
+                  const SizedBox(height: 25.0),
                   text01(
                     '${tr('Please Wait')}..',
                   ),
@@ -68,7 +68,7 @@ class Alert {
                     message,
                     textAlign: TextAlign.center,
                   ),
-                 const SizedBox(
+                  const SizedBox(
                     height: 20.0,
                   ),
                   Row(
@@ -81,7 +81,7 @@ class Alert {
                         child: Container(
                           width: (MediaQuery.of(Get.context!).size.width / 3.5),
                           alignment: Alignment.center,
-                          padding:const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.all(10.0),
                           decoration: BoxDecoration(
                             color: Colors.grey[300],
                             borderRadius: BorderRadius.circular(5.0),
@@ -99,7 +99,7 @@ class Alert {
                         child: Container(
                           width: (MediaQuery.of(Get.context!).size.width / 3.5),
                           alignment: Alignment.center,
-                          padding:const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.all(10.0),
                           decoration: BoxDecoration(
                             color: AppVar.primary,
                             borderRadius: BorderRadius.circular(5.0),
@@ -133,7 +133,7 @@ class Alert {
         child: Wrap(
           children: [
             Container(
-              padding:const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -142,7 +142,7 @@ class Alert {
                     message,
                     textAlign: TextAlign.center,
                   ),
-                const  SizedBox(
+                  const SizedBox(
                     height: 20.0,
                   ),
                   TextField01(
@@ -155,12 +155,12 @@ class Alert {
                         : TextDirection.ltr,
                     decoration: InputDecoration(
                         labelText: tr('Message to patient'),
-                        errorStyle:
-                          const  TextStyle(color: Colors.redAccent, fontSize: 16.0),
+                        errorStyle: const TextStyle(
+                            color: Colors.redAccent, fontSize: 16.0),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5.0))),
                   ),
-                const  SizedBox(
+                  const SizedBox(
                     height: 20.0,
                   ),
                   Row(
@@ -247,9 +247,10 @@ class Alert {
                           color: Colors.grey[300],
                           borderRadius: BorderRadius.circular(5.0),
                         ),
-                        child: text01(
-                          'Ok',
-                        ),
+                        child: text01('Ok',
+                            style: TextStyle(
+                              color: AppVar.textColor,
+                            )),
                       ),
                     ),
                   ],

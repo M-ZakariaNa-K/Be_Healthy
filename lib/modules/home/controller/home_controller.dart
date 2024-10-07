@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tracking_system_app/network_util.dart';
 import 'package:tracking_system_app/routes/app_pages.dart';
 import 'package:tracking_system_app/widgets/home/custome_message_dialog.dart';
 import 'package:tracking_system_app/widgets/home/custome_sign_out_dialog.dart';
+import 'package:tracking_system_app/widgets/toast/custom_toast.dart';
 
 class HomeController extends GetxController {
   RxInt selectedCardIndex = (-1).obs;
@@ -73,17 +75,14 @@ class HomeController extends GetxController {
   }
 
   Future<void> logout() async {
+    isLoading.value = true;
     try {
-      isLoading.value = true;
-      // Simulate sending request to the admin
-      //Here i will make a post request to the server
-      await Future.delayed(
-          const Duration(seconds: 3)); // Replace with actual request
-      Get.back();
-      Get.offAllNamed(Routes.LOGIN);
-      //Go to login page after successful logout Get.offAllNamed(Routes.LOGIN)
-      //delete the token
+      await $.resetUser();
+    
+      isLoading.value = false;
+    
     } catch (e) {
+      CustomToast.errorToast("Error", "Error because : ${e.toString()}");
     } finally {
       isLoading.value = false;
     }
