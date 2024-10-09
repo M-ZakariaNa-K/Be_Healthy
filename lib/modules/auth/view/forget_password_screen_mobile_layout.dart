@@ -5,6 +5,7 @@ import 'package:tracking_system_app/modules/auth/controller/forget_password_cont
 import 'package:tracking_system_app/style/app_var.dart';
 import 'package:tracking_system_app/widgets/auth/costume_login_TextField_widget.dart';
 import 'package:tracking_system_app/widgets/auth/login-defult_button.dart';
+
 class ForgetPasswordScreenMobileLayout
     extends GetView<ForgetPasswordController> {
   ForgetPasswordScreenMobileLayout(BuildContext context, {super.key});
@@ -233,10 +234,10 @@ class ForgetPasswordScreenMobileLayout
                                             filledTextFildData: "",
                                             prefixIcon: null,
                                             inputType: TextInputType.text,
-                                            hintText: 'Employee ID',
-                                            title: 'Employee ID',
-                                            controller:
-                                                controller.jobNumberController,
+                                            hintText: 'Phone Number',
+                                            title: 'Phone Number',
+                                            controller: controller
+                                                .phoneNumberController,
                                             validator: null,
                                           ),
                                           CustomeLoginTextFormField(

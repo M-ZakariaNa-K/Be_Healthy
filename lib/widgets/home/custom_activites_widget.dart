@@ -13,6 +13,7 @@ class CustomActivitiesCardWidget extends StatelessWidget {
     required this.index, // Add the index of the card
     required this.width,
     required this.height,
+    required this.isDeleverd,
   });
 
   final String imageName;
@@ -22,6 +23,7 @@ class CustomActivitiesCardWidget extends StatelessWidget {
   final int index; // Index for the card
   final double? width;
   final double? height;
+  final bool isDeleverd;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +76,13 @@ class CustomActivitiesCardWidget extends StatelessWidget {
               children: [
                 Image.asset(
                   imageName,
-                  width: isTaplet ? 100 : 60,
+                  width: isTaplet
+                      ? isDeleverd
+                          ? 120
+                          : 100
+                      : isDeleverd
+                          ? 80
+                          : 60,
                   height: isTaplet ? 100 : 60,
                 ),
                 Padding(

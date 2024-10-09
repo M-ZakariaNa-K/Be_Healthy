@@ -11,7 +11,6 @@ class SplashController extends GetxController
   @override
   void onInit() {
     super.onInit();
-
     // Initialize the animation controller
     animationController = AnimationController(
       vsync: this,

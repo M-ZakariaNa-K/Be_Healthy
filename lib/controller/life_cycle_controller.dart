@@ -46,4 +46,5 @@ class LifecycleController extends GetxController with WidgetsBindingObserver {
       print("App resumed");
     }
   }
+
 }

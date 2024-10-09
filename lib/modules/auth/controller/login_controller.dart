@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tracking_system_app/alert.dart';
 // import 'package:tracking_system_app/model/login_model.dart';
 import 'package:tracking_system_app/network_util.dart';
@@ -13,6 +14,7 @@ class LoginController extends GetxController {
   final TextEditingController passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   RxBool isLoading = false.obs;
+
   void validateForm() {
     if (phoneNumberController.text.isEmpty) {
       Get.closeAllSnackbars();
@@ -92,7 +94,7 @@ class LoginController extends GetxController {
         'phone': phoneNumberController.text,
         'password': passwordController.text,
       });
-
+      // Get.back();
       if (response != null) {
         await $.setConnectionParams(
             token: response['data']['token'],
@@ -104,11 +106,10 @@ class LoginController extends GetxController {
       }
 
       isLoading.value = false;
-      Get.back(); // Close the loading dialog after success
+      // Get.back(); // Close the loading dialog after success
     } catch (e) {
-      Get.back(); // Close the loading dialog in case of an error
       CustomToast.errorToast("Error", "Error because : ${e.toString()}");
-    }
+    } finally {}
   }
 
   @override

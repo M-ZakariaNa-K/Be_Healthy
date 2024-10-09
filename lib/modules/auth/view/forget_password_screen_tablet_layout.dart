@@ -217,16 +217,16 @@ class ForgetPasswordScreenTapletLayout
                                               filledTextFildData: "",
                                               prefixIcon: null,
                                               inputType: TextInputType.text,
-                                              hintText: 'Employee ID',
+                                              hintText: 'Phone Number',
                                               title: 'Employee ID',
                                               controller: controller
-                                                  .jobNumberController,
+                                                  .phoneNumberController,
                                               validator: null,
                                             ),
                                             CustomeLoginTextFormField(
                                               prefixIcon: null,
                                               inputType: TextInputType.text,
-                                              hintText: 'New Password',
+                                              hintText: 'Phone Number',
                                               title: 'Password',
                                               controller:
                                                   controller.passwordController,

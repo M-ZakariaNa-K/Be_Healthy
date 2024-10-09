@@ -29,7 +29,7 @@ class HomeView extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: Image.asset(
-              'assets/images/HomeBackground.png', // Path to your image
+              'assets/images/HomeBackground.png', // Path to background image
               fit: BoxFit.cover,
             ),
           ),
@@ -77,7 +77,8 @@ class HomeView extends StatelessWidget {
               actions: [
                 IconButton(
                   onPressed: () {
-                    homeController.showCustomMessageDialog(context);
+                    homeController.showCustomMessageDialog(
+                        context, homeController);
                   },
                   icon: Icon(
                     size: isTaplet ? 40 : null,
@@ -101,68 +102,86 @@ class HomeView extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      //===========================Welcome Message========================
-                      Padding(
-                        padding: EdgeInsets.only(
-                            right: isTaplet ? 40 : 20,
-                            left: isTaplet ? 40 : 20,
-                            bottom: 0),
-                        child: Stack(
+                      Obx(() {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: SizedBox(
-                                width: isTaplet ? 90 : 60,
-                                height: isTaplet ? 90 : 60,
-                                child: Image.asset(
-                                  "assets/images/user.png",
-                                  fit: BoxFit.cover,
+                            //===========================Welcome Message========================
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  right: isTaplet ? 40 : 20,
+                                  left: isTaplet ? 40 : 20,
+                                  bottom: 0),
+                              child: Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: SizedBox(
+                                      width: isTaplet ? 90 : 60,
+                                      height: isTaplet ? 90 : 60,
+                                      child: homeController
+                                                  .myInfoModel.value.image !=
+                                              null
+                                          ? Image.network(
+                                              homeController
+                                                  .myInfoModel.value.image
+                                                  .toString(),
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Image.asset(
+                                              "assets/images/user.png",
+                                              fit: BoxFit.cover,
+                                            ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: isTaplet ? 8 : 4,
+                                    right: isTaplet ? 8 : 4,
+                                    child: Container(
+                                      width: 10,
+                                      height: 10,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(1000.0),
+                                        color: const Color.fromARGB(
+                                            255, 13, 218, 119),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            //----------------------------
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: isTaplet ? 40 : 20),
+                              child: Text(
+                                "Hi ${homeController.myInfoModel.value.name.split(' ')[0]}!",
+                                style: TextStyle(
+                                  fontFamily: "Allerta",
+                                  fontSize: dataFontSize,
+                                  color: AppVar.seconndTextColor,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
                             ),
-                            Positioned(
-                              bottom: isTaplet ? 8 : 4,
-                              right: isTaplet ? 8 : 4,
-                              child: Container(
-                                width: 10,
-                                height: 10,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(1000.0),
-                                  color:
-                                      const Color.fromARGB(255, 13, 218, 119),
+                            //----------------------------
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: isTaplet ? 40 : 20),
+                              child: Text(
+                                "ID: ${homeController.myInfoModel.value.employeeNumber ?? homeController.myInfoModel.value.id} / ${homeController.myInfoModel.value.role}",
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  color: AppVar.seconndTextColor,
                                 ),
                               ),
                             ),
                           ],
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      //----------------------------
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: isTaplet ? 40 : 20),
-                        child: Text(
-                          "Hi Ahmad!",
-                          style: TextStyle(
-                            fontFamily: "Allerta",
-                            fontSize: dataFontSize,
-                            color: AppVar.seconndTextColor,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      //----------------------------
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: isTaplet ? 40 : 20),
-                        child: Text(
-                          "ID: 002024",
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: AppVar.seconndTextColor,
-                          ),
-                        ),
-                      ),
+                        );
+                      }),
+
                       //----------------------------
                       const SizedBox(height: 50), // Adjust spacing
 

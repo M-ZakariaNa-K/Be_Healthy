@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -129,15 +130,25 @@ class QrScanController extends GetxController {
     await cameraController?.start();
   } //=============================Server side================================================================
 
-  Future<void> sendToServerSide(String qrCodeData) async {
+  Future<void> sendToServerSide(
+      String qrCodeData) async {
+    isLoading.value = true; // Show loading indicator
     try {
-      isLoading.value = true; // Show loading indicator
+      // if (snapshot.data == ConnectivityResult.none) {
+      //   // Show an error message if there is no internet connection
+      //   CustomToast.errorToast("No Internet",
+      //       "Please check your internet connection and try again.");
+      //   isLoading.value = false; // Hide loading indicator
+      //   return; // Exit the method
+      // } else {
       //DELETE FUTURE DELAYED WHEN U LINK WITH API
+
+      print('code.value,: ${code.value}');
       final response = await $.getQrScan(
         code.value,
       );
-
       if (response != null) {
+        print("zzzzzzzzz");
         isScanCompleted.value = false;
         qrScanModel.value = QrScanDataModel.fromJson(response["data"]);
         print(response);
@@ -145,6 +156,7 @@ class QrScanController extends GetxController {
       }
 
       isLoading.value = false;
+      // }
     } catch (e) {
       isScanCompleted.value = false;
       isLoading.value = false;
@@ -154,13 +166,28 @@ class QrScanController extends GetxController {
     }
   }
 
-  void onDetectBarcode(String qrData) {
+  void onDetectBarcode(
+      String qrData) {
     if (!isScanCompleted.value && !isLoading.value) {
       code.value = qrData;
 
       // Make POST request with scanned QR data
+
       sendToServerSide(qrData);
     }
+  }
+
+  // Method to handle the case when there is no internet
+  void handleNoInternet(String qrCodeData) {
+    // Cache the scanned code
+    code.value = qrCodeData;
+
+    // Print the cached code
+    print("Cached QR Code: ${code.value}");
+
+    // Show error message to the user
+    CustomToast.errorToast(
+        "No Internet", "Please check your internet connection and try again.");
   }
 
   //--------------------------RESULT VIEW-----------------------------------------

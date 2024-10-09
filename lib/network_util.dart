@@ -8,16 +8,17 @@ import 'package:tracking_system_app/alert.dart';
 import 'package:tracking_system_app/helpers/helpers.dart';
 import 'package:tracking_system_app/modules/home/controller/home_controller.dart';
 import 'package:tracking_system_app/routes/app_pages.dart';
+import 'package:tracking_system_app/shared/shared.dart';
 import 'package:tracking_system_app/style/app_var.dart';
 
 class $ {
-  static String? _token;
-  static String? role;
+  static String? token1;
+  // static String? role;
   static const int _RESPONSE_STATUS_AUTHORIZATION_ERROR = 401;
   //change th the endpoint ZAK============================
 
-  static String _URL = "http://api.behealthy-dxb.com/api";
-  static String BASE_URL = "http://api.behealthy-dxb.com";
+  static String _URL = "https://api.behealthy-dxb.com/api";
+  static String BASE_URL = "https://api.behealthy-dxb.com";
 
   static Future<dynamic> getQrScan(String url,
       {bool redirectIfAuthFail = true}) async {
@@ -29,13 +30,16 @@ class $ {
                 'Accept': 'application/json',
                 'language': AppVar
                     .LANG_CODE, // It's too important to pass empty string if null so server returns ip lang,
-                'Authorization': 'Bearer $_token',
+                'Authorization': 'Bearer $token1',
                 'mobile-agent': '1',
                 // 'version-number': AppVar.VERSION_NUMBER.toString(),
               },
               validateStatus: (v) {
                 return v != null && v >= 200 && v <= 420;
               }));
+      print('responsess: ${response}');
+      print('token1: ${token1}');
+      print('logint: ${sharedLoginToken}');
       // if (response.statusCode == _RESPONSE_STATUS_AUTHORIZATION_ERROR)
       // return resetUser(redirect: redirectIfAuthFail);
       return responseHandler(response);
@@ -49,6 +53,8 @@ class $ {
   static Future<dynamic> get(String url,
       {bool redirectIfAuthFail = true}) async {
     try {
+      SharedPreferences _pref = await SharedPreferences.getInstance();
+
       var response = await Dio().get(resolveUrl(url),
           options: Options(
               headers: {
@@ -56,15 +62,16 @@ class $ {
                 'Accept': 'application/json',
                 'language': AppVar
                     .LANG_CODE, // It's too important to pass empty string if null so server returns ip lang,
-                'Authorization': 'Bearer $_token',
+                'Authorization': 'Bearer $token1',
                 'mobile-agent': '1',
                 // 'version-number': AppVar.VERSION_NUMBER.toString(),
               },
               validateStatus: (v) {
-                return v != null && v >= 200 && v <= 420;
+                return v != null && v >= 200 && v <= 430;
               }));
-      if (response.statusCode == _RESPONSE_STATUS_AUTHORIZATION_ERROR)
-        return resetUser(redirect: redirectIfAuthFail);
+      // if (response.statusCode == _RESPONSE_STATUS_AUTHORIZATION_ERROR) {
+      //   return resetUser(redirect: redirectIfAuthFail);
+      // }
       return responseHandler(response);
     } catch (e) {
       Alert.hideProgress();
@@ -76,31 +83,34 @@ class $ {
   static Future<dynamic> post(String url, {Map<String, dynamic>? body}) async {
     try {
       var form = FormData.fromMap(body ?? {}, ListFormat.multiCompatible);
-
       var response = await Dio().post(resolveUrl(url),
           data: form,
           options: Options(
               headers: {
-                'Content-Type': 'application/json; charset=utf-8',
+                // 'Content-Type': 'application/json; charset=utf-8',
                 'Accept': 'application/json',
                 'language': AppVar
                     .LANG_CODE, // It's too important to pass empty string if null so server returns ip lang,
-                'Authorization': 'Bearer $_token',
+                'Authorization': 'Bearer $token1',
                 'mobile-agent': '1',
                 'version-number': AppVar.VERSION_NUMBER.toString(),
               },
               validateStatus: (v) {
-                return v != null && v >= 200 && v <= 420;
+                return v != null && v >= 200 && v <= 430;
               }));
-      print(response);
+      // print(response);
       //================Zak edition =================
 
       // if (response.statusCode == _RESPONSE_STATUS_AUTHORIZATION_ERROR)
       // return resetUser();
-
       return responseHandler(response);
     } catch (e) {
       Alert.hideProgress();
+      //if i have a network(internet) error while i login
+      if (token1 == "" || token1 == null) {
+        Get.back();
+      }
+
       log("Error ${e.toString()}");
       Alert.toast("Error connecting server! try again later.");
       return null;
@@ -120,17 +130,19 @@ class $ {
                 'Accept': 'application/json',
                 'language': AppVar
                     .LANG_CODE, // It's too important to pass empty string if null so server returns ip lang,
-                'Authorization': 'Bearer $_token',
+                'Authorization': 'Bearer $token1',
                 'mobile-agent': '1',
                 // 'version-number': AppVar.VERSION_NUMBER.toString(),
               },
               validateStatus: (v) {
                 return v != null && v >= 200 && v <= 420;
               }));
+      log("${response.statusCode}");
       //================Zak edition =================
 
       // if (response.statusCode == _RESPONSE_STATUS_AUTHORIZATION_ERROR)
       //   return resetUser();
+
       return responseHandler(response);
     } catch (e) {
       Alert.hideProgress();
@@ -149,7 +161,7 @@ class $ {
                 'Accept': 'application/json',
                 'language':
                     'en', // It's too important to pass empty string if null so server returns ip lang,
-                'Authorization': 'Bearer $_token',
+                'Authorization': 'Bearer $token1',
                 'mobile-agent': '1',
                 // 'version-number': AppVar.VERSION_NUMBER.toString(),
               },
@@ -159,6 +171,7 @@ class $ {
       //================Zak edition =================
       // if (response.statusCode == _RESPONSE_STATUS_AUTHORIZATION_ERROR)
       //   return resetUser();
+
       return responseHandler(response);
     } catch (e) {
       Alert.hideProgress();
@@ -175,13 +188,19 @@ class $ {
       Alert.infoDialog(message: body['message']);
     }
     //========zak edit
-    else if (statusCode == 401 && _token == null) {
+    else if (statusCode == 401 && (token1 == "" || token1 == null)) {
+      Get.back();
       dynamic body = response.data;
       Alert.infoDialog(
           message: "${body['message']}. Check your phone number or password");
-    } else if (statusCode == 401 && _token != null) {
+    } else if (statusCode == 401 && (token1 != "" || token1 != null)) {
+      print(token1);
       dynamic body = response.data;
       Alert.infoDialog(message: "${body['message']}.");
+//TO LOG OUT IF I HAVE THIS MESSAGE DURING USE THE APP
+      if (body['message'] == "Unauthenticated") {
+        resetUser();
+      }
     } else if (statusCode != null && statusCode >= 200 && statusCode < 300) {
       return response.data;
     } else if (statusCode == 408) {
@@ -190,6 +209,16 @@ class $ {
               'Update required! please to update this application to the latest version'));
     } else if (statusCode == 411) {
       alertAndExit(tr('Your account is not yet linked or not activiated!'));
+      //ZAKARIA EDITION
+    } else if (statusCode == 422) {
+      dynamic body = response.data;
+
+      if (body['message'] != null && body['message'].isNotEmpty) {
+        // Case when the response has a 'message' field
+        Alert.infoDialog(message: "${body['message']}");
+      } else {
+        Alert.toast("Error connecting server! try again later.");
+      }
     } else {
       log(response.data.toString());
       Alert.infoDialog(
@@ -198,17 +227,20 @@ class $ {
     return null;
   }
 
-  static resetUser({bool redirect = true}) {
-    post('users/logout');
+  static resetUser({bool redirect = true}) async {
+    dynamic response = await post('users/logout');
     SharedPreferences.getInstance().then((_pref) {
       _pref.remove('token');
+      sharedLoginToken = null;
     });
-    _token = "";
-    role = "";
+    token1 = "";
+    // role = "";
     if (redirect) {
       Get.delete<HomeController>();
       Get.offAllNamed(Routes.LOGIN);
+      // if (response["code"] == 200) {
       Alert.toast('Logged out successfully');
+      // }
     }
 
     return null;
@@ -216,14 +248,14 @@ class $ {
 
   static Future setConnectionParams(
       {required String token, required String userRole}) async {
-    _URL = "http://api.behealthy-dxb.com/api";
-    BASE_URL = "http://api.behealthy-dxb.com";
+    _URL = "https://api.behealthy-dxb.com/api";
+    BASE_URL = "https://api.behealthy-dxb.com";
 
-    _token = token;
-    role = userRole;
+    token1 = token;
+    // role = userRole;
 
     SharedPreferences _pref = await SharedPreferences.getInstance();
-    _pref.setString('token', _token!);
+    _pref.setString('token', token1!);
     return;
   }
 
@@ -253,11 +285,11 @@ class $ {
 
   //   // if (!enabled) {
   //     //change th the endpoint ZAK============================
-  //     _URL = "http://behealthy.test/api";
-  //     BASE_URL = "http://behealthy.test";
+  //     _URL = "https://behealthy.test/api";
+  //     BASE_URL = "https://behealthy.test";
   //   // } else {
-  //     // _URL = "http://behealthy.test/api";
-  //     // BASE_URL = "http://behealthy.test";
+  //     // _URL = "https://behealthy.test/api";
+  //     // BASE_URL = "https://behealthy.test";
   //     // Alert.toast('Demo mode enabled');
   //   // }
 

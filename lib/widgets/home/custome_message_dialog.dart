@@ -31,9 +31,9 @@ class CustomMessageDialog extends StatelessWidget {
                 // Title
                 Row(
                   children: [
-                    const Text(
-                      "Driver name: ",
-                      style: TextStyle(
+                    Text(
+                      "${homeController.myInfoModel.value.role.capitalize} name: ",
+                      style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -51,9 +51,9 @@ class CustomMessageDialog extends StatelessWidget {
                 const SizedBox(height: 5), // Spacing between title and subtitle
                 Row(
                   children: [
-                    const Text(
-                      "Driver ID: ",
-                      style: TextStyle(
+                    Text(
+                      "${homeController.myInfoModel.value.role.capitalize} ID: ",
+                      style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -84,7 +84,7 @@ class CustomMessageDialog extends StatelessWidget {
                       homeController.isTextFildFilled.value = false;
                     }
                   },
-                  controller: homeController.homeDialogController,
+                  controller: homeController.issueDialogController,
                   maxLines: 9, // Makes the text field large
                   decoration: InputDecoration(
                     hintText: 'Enter Your Problem',

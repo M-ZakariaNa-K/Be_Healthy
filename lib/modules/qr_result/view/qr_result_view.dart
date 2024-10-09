@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:tracking_system_app/modules/qr_scan/controller/qr_scan_controller.dart';
+import 'package:tracking_system_app/modules/qr_scan/view/qr_scan_view.dart';
 import 'package:tracking_system_app/style/app_var.dart';
 
 class QRResultPage extends StatelessWidget {

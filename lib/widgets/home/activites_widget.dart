@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tracking_system_app/controller/life_cycle_controller.dart';
 import 'package:tracking_system_app/modules/home/controller/home_controller.dart';
@@ -54,6 +53,7 @@ class ActivitesWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 CustomActivitiesCardWidget(
+                  isDeleverd: false,
                   width: isTaplet ? 200 : null,
                   height: isTaplet ? 300 : null,
                   imageName: "assets/images/boxes (1).png",
@@ -73,6 +73,7 @@ class ActivitesWidget extends StatelessWidget {
                   index: 0,
                 ),
                 CustomActivitiesCardWidget(
+                  isDeleverd: true,
                   width: isTaplet ? 200 : null,
                   height: isTaplet ? 300 : null,
                   imageName: "assets/images/scooter.png",
@@ -81,7 +82,7 @@ class ActivitesWidget extends StatelessWidget {
                     final qrScanController = Get.put(QrScanController());
                     qrScanController.scanningKind.value = "delivered";
                     qrScanController.lockOrientation();
-                              final liefCycleController = Get.find<LifecycleController>();
+                    final liefCycleController = Get.find<LifecycleController>();
                     liefCycleController.enterQrScanView();
 
                     Get.toNamed(Routes.QR_SCANN);
@@ -90,6 +91,7 @@ class ActivitesWidget extends StatelessWidget {
                   index: 1,
                 ),
                 CustomActivitiesCardWidget(
+                  isDeleverd: false,
                   width: isTaplet ? 200 : null,
                   height: isTaplet ? 300 : null,
                   imageName: "assets/images/Character (1).png",
