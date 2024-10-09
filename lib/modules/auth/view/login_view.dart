@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:tracking_system_app/modules/auth/view/login_screen_MobileLayout.dart';
 import 'package:tracking_system_app/modules/auth/view/login_screen_tablet_layout.dart';
-import 'package:tracking_system_app/modules/splash/controller/splash_controller.dart';
 
 // ignore: must_be_immutable
 class LoginView extends StatelessWidget {

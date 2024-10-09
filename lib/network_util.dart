@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' hide Response, MultipartFile, FormData;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +13,7 @@ import 'package:tracking_system_app/style/app_var.dart';
 class $ {
   static String? token1;
   // static String? role;
-  static const int _RESPONSE_STATUS_AUTHORIZATION_ERROR = 401;
+  // static const int _RESPONSE_STATUS_AUTHORIZATION_ERROR = 401;
   //change th the endpoint ZAK============================
 
   static String _URL = "https://api.behealthy-dxb.com/api";
@@ -53,8 +52,6 @@ class $ {
   static Future<dynamic> get(String url,
       {bool redirectIfAuthFail = true}) async {
     try {
-      SharedPreferences _pref = await SharedPreferences.getInstance();
-
       var response = await Dio().get(resolveUrl(url),
           options: Options(
               headers: {
@@ -229,6 +226,10 @@ class $ {
 
   static resetUser({bool redirect = true}) async {
     dynamic response = await post('users/logout');
+    //IF THERE IS NO INTERNET
+    if (response == null) {
+      return;
+    }
     SharedPreferences.getInstance().then((_pref) {
       _pref.remove('token');
       sharedLoginToken = null;

@@ -20,7 +20,6 @@ class HomeController extends GetxController {
     super.onInit();
     initialize();
   }
-
 //===========================================My Info========================================
   Future<void> initialize() async {
     isLoading.value = true;

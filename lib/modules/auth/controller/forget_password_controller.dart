@@ -84,10 +84,6 @@ class ForgetPasswordController extends GetxController {
           isWaitAdminApproved.value = false;
           Get.offAllNamed(Routes.LOGIN);
         });
-
-        // User().fromJson(response['user']);
-        // await User().loadInitialPortal();
-        // goHome();
       }
 
       isLoading.value = false;

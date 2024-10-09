@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tracking_system_app/alert.dart';
-// import 'package:tracking_system_app/model/login_model.dart';
 import 'package:tracking_system_app/network_util.dart';
 import 'package:tracking_system_app/routes/app_pages.dart';
 import 'package:tracking_system_app/widgets/general/main_loading_widget.dart';
 import 'package:tracking_system_app/widgets/toast/custom_toast.dart';
 
 class LoginController extends GetxController {
-  // Rx<LoginDataModel> loginInfo = LoginDataModel(role: "", token: "").obs;
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -19,13 +16,6 @@ class LoginController extends GetxController {
     if (phoneNumberController.text.isEmpty) {
       Get.closeAllSnackbars();
       CustomToast.errorToast('Error', 'Please enter your phone number');
-      // Get.snackbar(
-      //   'Error',
-      //   'Please enter your phone number',
-      //   snackPosition: SnackPosition.BOTTOM,
-      //   backgroundColor: Colors.red,
-      //   colorText: Colors.white,
-      // );
       return;
     }
 
@@ -36,38 +26,18 @@ class LoginController extends GetxController {
       Get.closeAllSnackbars();
       CustomToast.errorToast(
           'Error', 'Please enter a valid Emirates phone number');
-
-      // Get.snackbar(
-      //   'Error',
-      //   'Please enter a valid Emirates phone number',
-      //   snackPosition: SnackPosition.BOTTOM,
-      //   backgroundColor: Colors.red,
-      //   colorText: Colors.white,
-      // );
       return;
     }
 
     if (passwordController.text.isEmpty) {
       Get.closeAllSnackbars();
       CustomToast.errorToast('Error', 'Please enter your password');
-      // Get.snackbar(
-      //   'Error',
-      //   'Please enter your password',
-      //   snackPosition: SnackPosition.BOTTOM,
-      //   backgroundColor: Colors.red,
-      //   colorText: Colors.white,
-      // );
+    
       return;
     } else if (passwordController.text.length < 6) {
       Get.closeAllSnackbars();
       CustomToast.errorToast('Error', 'Password must be at least 6 characters');
-      // Get.snackbar(
-      //   'Error',
-      //   'Password must be at least 6 characters',
-      //   snackPosition: SnackPosition.BOTTOM,
-      //   backgroundColor: Colors.red,
-      //   colorText: Colors.white,
-      // );
+    
       return;
     }
     // If all validations pass, proceed

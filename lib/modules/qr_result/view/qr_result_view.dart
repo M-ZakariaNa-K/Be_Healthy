@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:tracking_system_app/modules/qr_scan/controller/qr_scan_controller.dart';
-import 'package:tracking_system_app/modules/qr_scan/view/qr_scan_view.dart';
 import 'package:tracking_system_app/style/app_var.dart';
 
 class QRResultPage extends StatelessWidget {
@@ -19,8 +18,7 @@ class QRResultPage extends StatelessWidget {
     return SafeArea(
       child: PopScope(
         onPopInvokedWithResult: (popDisposition, result) {
-          qrController
-              .closeScreen(); // Call closeScreen when back button is pressed
+          qrController.closeScreen(); // Call closeScreen when back button is pressed
           return; // Allow the pop (back) action to happen
         },
         child: Stack(
@@ -143,27 +141,6 @@ class QRResultPage extends StatelessWidget {
                                 ),
                         );
                       }),
-
-                      // Container(
-                      //   margin: const EdgeInsets.only(bottom: 20),
-                      //   padding: const EdgeInsets.symmetric(
-                      //       vertical: 5, horizontal: 20),
-                      //   decoration: BoxDecoration(
-                      //       borderRadius: BorderRadius.circular(10),
-                      //       color: Colors.transparent,
-                      //       border: Border.all(
-                      //         color: AppVar.primary,
-                      //         width: 2,
-                      //       )),
-                      //   child: Text(
-                      //     "Copy",
-                      //     style: TextStyle(
-                      //       fontSize: 20,
-                      //       color: AppVar.primary,
-                      //       fontWeight: FontWeight.bold,
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),
@@ -176,9 +153,6 @@ class QRResultPage extends StatelessWidget {
               child: Container(
                 width: 150,
                 height: 150,
-                // margin: const EdgeInsets.only(bottom: 20),
-                // padding:
-                //     const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10000),
                     color: Colors.transparent,
@@ -196,9 +170,6 @@ class QRResultPage extends StatelessWidget {
                 child: Container(
                   width: 150,
                   height: 150,
-                  // margin: const EdgeInsets.only(bottom: 20),
-                  // padding:
-                  //     const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10000),
                       color: AppVar.primary,
@@ -217,9 +188,6 @@ class QRResultPage extends StatelessWidget {
                 child: Container(
                   width: 50,
                   height: 50,
-                  // margin: const EdgeInsets.only(bottom: 20),
-                  // padding:
-                  //     const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10000),
                       color: AppVar.primary,
@@ -238,9 +206,6 @@ class QRResultPage extends StatelessWidget {
                 child: Container(
                   width: 100,
                   height: 100,
-                  // margin: const EdgeInsets.only(bottom: 20),
-                  // padding:
-                  //     const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10000),
                       color: AppVar.primary,
@@ -272,30 +237,6 @@ class QRResultPage extends StatelessWidget {
                 ),
               ),
             ),
-            // Positioned(
-            //   top: -100,
-            //   left: 0,
-            //   right: 0,
-            //   child: SizedBox(
-            //     width: double.infinity,
-            //     child: Image.asset(
-            //       'assets/images/HomeBackground.png', // Path to your image
-            //       fit: BoxFit.cover,
-            //     ),
-            //   ),
-            // ),
-            // Positioned(
-            //   bottom: -240,
-            //   left: -20,
-            //   right: 0,
-            //   child: SizedBox(
-            //     width: double.infinity,
-            //     child: Image.asset(
-            //       'assets/images/HomeBackground.png', // Path to your image
-            //       fit: BoxFit.cover,
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),

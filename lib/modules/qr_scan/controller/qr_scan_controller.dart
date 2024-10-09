@@ -1,4 +1,3 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -84,19 +83,16 @@ class QrScanController extends GetxController {
 
     //i call it cause the cameraController being null in all time()and i want it to be null and after go back to the page be MobileScannerController()
     cameraController ??= MobileScannerController();
-    print('cameraController ddiisisisisisis: ${cameraController}');
   }
 
   Future<void> startCamera() async {
     // Check if the camera is already initialized to avoid creating multiple instances
     cameraController ??= MobileScannerController();
-    print(
-        'cameraController STARRT=========================: ${cameraController}');
+
     if (cameraController != null) {
       await cameraController!
           .start(); // Start the camera when HomeView is ready
     }
-    print("Camera started");
   }
 
   // Stop and dispose of the camera when the controller is destroyed
@@ -114,7 +110,6 @@ class QrScanController extends GetxController {
 
   // Toggle flash
   void toggleFlash() {
-    print(cameraController);
     if (cameraController != null) {
       isFlashOn.value = !isFlashOn.value;
 
@@ -143,15 +138,12 @@ class QrScanController extends GetxController {
       // } else {
       //DELETE FUTURE DELAYED WHEN U LINK WITH API
 
-      print('code.value,: ${code.value}');
       final response = await $.getQrScan(
         code.value,
       );
       if (response != null) {
-        print("zzzzzzzzz");
         isScanCompleted.value = false;
         qrScanModel.value = QrScanDataModel.fromJson(response["data"]);
-        print(response);
         Get.toNamed(Routes.QR_RESULT);
       }
 
@@ -170,26 +162,10 @@ class QrScanController extends GetxController {
       String qrData) {
     if (!isScanCompleted.value && !isLoading.value) {
       code.value = qrData;
-
       // Make POST request with scanned QR data
-
       sendToServerSide(qrData);
     }
   }
-
-  // Method to handle the case when there is no internet
-  void handleNoInternet(String qrCodeData) {
-    // Cache the scanned code
-    code.value = qrCodeData;
-
-    // Print the cached code
-    print("Cached QR Code: ${code.value}");
-
-    // Show error message to the user
-    CustomToast.errorToast(
-        "No Internet", "Please check your internet connection and try again.");
-  }
-
   //--------------------------RESULT VIEW-----------------------------------------
   Future<void> showLottieAnimationFunction() async {
     // Show Lottie animation for 3 seconds
@@ -198,7 +174,7 @@ class QrScanController extends GetxController {
     showLottieAnimationInResult.value = false;
   }
 
-  //=========================================================== PIREMISSION--------------------------------
+  //================================================= PIREMISSION--------------------------------
   Future<void> requestCameraPermission() async {
     PermissionStatus status = await Permission.camera.status;
 

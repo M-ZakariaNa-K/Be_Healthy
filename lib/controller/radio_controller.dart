@@ -10,13 +10,4 @@ class RadioController extends GetxController {
     int? getSelectedValue() {
     return selectedValue.value;
   }
-
-  // RxString selectedEventKindValue = ''.obs; // Observe changes to the selected value
-
-  // void setEventKindSelectedValue(int value) {
-  //   selectedValue.value = value;
-  // }
-  //   String? getEventKindSelectedValue() {
-  //   return selectedEventKindValue.value;
-  // }
 }
