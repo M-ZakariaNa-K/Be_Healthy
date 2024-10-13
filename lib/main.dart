@@ -32,7 +32,6 @@ class MyApp extends StatelessWidget {
       theme: AppVar.lightTheme,
       darkTheme: AppVar.darkTheme,
       themeMode: ThemeMode.system,
-      // home: SplashScreen(),
       initialRoute: sharedLoginToken != null
           ? Routes.HOME
           : Routes

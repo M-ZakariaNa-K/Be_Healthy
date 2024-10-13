@@ -20,11 +20,11 @@ class HomeController extends GetxController {
     super.onInit();
     initialize();
   }
+
 //===========================================My Info========================================
   Future<void> initialize() async {
     isLoading.value = true;
     try {
-      print("zzz");
       var response = await $.get('users/my-info');
       print(response);
 

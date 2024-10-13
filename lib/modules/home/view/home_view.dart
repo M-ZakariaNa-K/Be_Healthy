@@ -1,8 +1,10 @@
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tracking_system_app/modules/home/controller/home_controller.dart';
 import 'package:tracking_system_app/style/app_var.dart';
+import 'package:tracking_system_app/widgets/general/main_loading_widget.dart';
 import 'package:tracking_system_app/widgets/home/activites_widget.dart';
 
 class HomeView extends StatelessWidget {
@@ -114,6 +116,34 @@ class HomeView extends StatelessWidget {
                                   bottom: 0),
                               child: Stack(
                                 children: [
+                                  // ClipRRect(
+                                  //   borderRadius: BorderRadius.circular(100),
+                                  //   child: SizedBox(
+                                  //     width: isTaplet ? 90 : 60,
+                                  //     height: isTaplet ? 90 : 60,
+                                  //     child: homeController
+                                  //                 .myInfoModel.value.image !=
+                                  //             null
+                                  //         ? Image.network(
+                                  //             homeController
+                                  //                 .myInfoModel.value.image
+                                  //                 .toString(),
+                                  //             fit: BoxFit.cover,
+                                  //             errorBuilder:
+                                  //                 (context, error, stackTrace) {
+                                  //               // Fallback to asset image in case of error
+                                  //               return Image.asset(
+                                  //                 "assets/images/user.png",
+                                  //                 fit: BoxFit.cover,
+                                  //               );
+                                  //             },
+                                  //           )
+                                  //         : Image.asset(
+                                  //             "assets/images/user.png",
+                                  //             fit: BoxFit.cover,
+                                  //           ),
+                                  //   ),
+                                  // ),
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(100),
                                     child: SizedBox(
@@ -122,10 +152,18 @@ class HomeView extends StatelessWidget {
                                       child: homeController
                                                   .myInfoModel.value.image !=
                                               null
-                                          ? Image.network(
-                                              homeController
+                                          ? CachedNetworkImage(
+                                              imageUrl: homeController
                                                   .myInfoModel.value.image
                                                   .toString(),
+                                              placeholder: (context, url) =>
+                                                  const MainLoadingWidget(), // Show a loading indicator
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Image.asset(
+                                                "assets/images/user.png",
+                                                fit: BoxFit.cover,
+                                              ),
                                               fit: BoxFit.cover,
                                             )
                                           : Image.asset(
@@ -192,6 +230,22 @@ class HomeView extends StatelessWidget {
                 ),
               );
             }),
+          ),
+          Positioned(
+            bottom: 10,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Text(
+                "© 2024 Nexus Team.",
+                style: TextStyle(
+                  fontSize: isTaplet ? 32 : 12,
+                  fontFamily: "poppins",
+                  color: const Color.fromARGB(255, 205, 205, 205),
+                  decoration: TextDecoration.none,
+                ),
+              ),
+            ),
           ),
         ],
       ),

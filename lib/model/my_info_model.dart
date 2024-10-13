@@ -2,7 +2,7 @@ class MyInfoDataModel {
     int id;
     String name;
     String phone;
-    String employeeNumber;
+    String? employeeNumber;
     dynamic image;
     String role;
 

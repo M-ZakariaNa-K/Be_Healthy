@@ -179,6 +179,7 @@ class $ {
 
   static dynamic responseHandler(Response<dynamic> response) {
     final int? statusCode = response.statusCode;
+    print(statusCode);
     Alert.hideProgress();
     if (statusCode == 400) {
       dynamic body = response.data;
@@ -191,12 +192,13 @@ class $ {
       Alert.infoDialog(
           message: "${body['message']}. Check your phone number or password");
     } else if (statusCode == 401 && (token1 != "" || token1 != null)) {
-      print(token1);
+      print("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz: $token1");
       dynamic body = response.data;
       Alert.infoDialog(message: "${body['message']}.");
-//TO LOG OUT IF I HAVE THIS MESSAGE DURING USE THE APP
-      if (body['message'] == "Unauthenticated") {
-        resetUser();
+//TO LOG OUT IF I HAVE THIS MESSAGE DURING USE THE APP like when the seession has been expierd
+      if (body['message'] == "Unauthenticated.") {
+        // resetUser();
+        expiredSessionFun();
       }
     } else if (statusCode != null && statusCode >= 200 && statusCode < 300) {
       return response.data;
@@ -222,6 +224,16 @@ class $ {
           message: tr('Unknown error occurred! please try again later.'));
     }
     return null;
+  }
+
+  static void expiredSessionFun() {
+    SharedPreferences.getInstance().then((_pref) {
+      _pref.remove('token');
+      sharedLoginToken = null;
+      Get.delete<HomeController>();
+      Get.offAllNamed(Routes.LOGIN);
+    });
+    token1 = "";
   }
 
   static resetUser({bool redirect = true}) async {

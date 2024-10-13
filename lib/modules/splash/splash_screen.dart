@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:tracking_system_app/modules/splash/controller/splash_controller.dart';
 
@@ -26,8 +27,9 @@ class SplashScreen extends StatelessWidget {
                     ),
                     child: SizedBox(
                       width: 300,
-                      child: Image.asset(
-                        "assets/images/Logo-1.png",
+                      height: 300,
+                      child: SvgPicture.asset(
+                        "assets/images/Logo-1.svg",
                         fit: BoxFit.cover,
                       ),
                     ),
