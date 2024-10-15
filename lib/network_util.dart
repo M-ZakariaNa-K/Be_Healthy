@@ -9,6 +9,7 @@ import 'package:tracking_system_app/modules/home/controller/home_controller.dart
 import 'package:tracking_system_app/routes/app_pages.dart';
 import 'package:tracking_system_app/shared/shared.dart';
 import 'package:tracking_system_app/style/app_var.dart';
+import 'package:tracking_system_app/widgets/toast/custom_toast.dart';
 
 class $ {
   static String? token1;
@@ -19,32 +20,86 @@ class $ {
   static String _URL = "https://api.behealthy-dxb.com/api";
   static String BASE_URL = "https://api.behealthy-dxb.com";
 
+  // static Future<dynamic> getQrScan(String url,
+  //     {bool redirectIfAuthFail = true}) async {
+  //         final cancelToken = CancelToken(); // Create a CancelToken
+  //   try {
+  //     var response = await Dio().get(url,
+  //         options: Options(
+  //             headers: {
+  //               'Content-Type': 'application/json; charset=utf-8',
+  //               'Accept': 'application/json',
+  //               'language': AppVar
+  //                   .LANG_CODE, // It's too important to pass empty string if null so server returns ip lang,
+  //               'Authorization': 'Bearer $token1',
+  //               'mobile-agent': '1',
+  //               // 'version-number': AppVar.VERSION_NUMBER.toString(),
+  //             },
+  //             validateStatus: (v) {
+  //               return v != null && v >= 200 && v <= 420;
+  //             }));
+  //     print('responsess: ${response}');
+  //     print('token1: ${token1}');
+  //     print('logint: ${sharedLoginToken}');
+  //     // if (response.statusCode == _RESPONSE_STATUS_AUTHORIZATION_ERROR)
+  //     // return resetUser(redirect: redirectIfAuthFail);
+  //     return responseHandler(response);
+  //   } catch (e) {
+  //     Alert.hideProgress();
+  //     //Alert.toast("Error connecting server! try again later.");
+  //     return null;
+  //   }
+  // }
   static Future<dynamic> getQrScan(String url,
       {bool redirectIfAuthFail = true}) async {
+    final cancelToken = CancelToken(); // Create a CancelToken
+
     try {
-      var response = await Dio().get(url,
-          options: Options(
-              headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-                'Accept': 'application/json',
-                'language': AppVar
-                    .LANG_CODE, // It's too important to pass empty string if null so server returns ip lang,
-                'Authorization': 'Bearer $token1',
-                'mobile-agent': '1',
-                // 'version-number': AppVar.VERSION_NUMBER.toString(),
-              },
-              validateStatus: (v) {
-                return v != null && v >= 200 && v <= 420;
-              }));
-      print('responsess: ${response}');
-      print('token1: ${token1}');
-      print('logint: ${sharedLoginToken}');
-      // if (response.statusCode == _RESPONSE_STATUS_AUTHORIZATION_ERROR)
-      // return resetUser(redirect: redirectIfAuthFail);
+      // Start a timer to cancel the request after 10 seconds
+      Future.delayed(Duration(seconds: 10), () {
+        if (!cancelToken.isCancelled) {
+          cancelToken.cancel("Request cancelled due to slow connection.");
+        }
+      });
+
+      var response = await Dio().get(
+        url,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            'Accept': 'application/json',
+            'language': AppVar.LANG_CODE ?? '',
+            'Authorization': 'Bearer $token1',
+            'mobile-agent': '1',
+          },
+          validateStatus: (v) => v != null && v >= 200 && v <= 430,
+        ),
+        cancelToken: cancelToken, // Attach the cancel token
+      );
+
+      print('Response: ${response}');
       return responseHandler(response);
     } catch (e) {
-      Alert.hideProgress();
-      //Alert.toast("Error connecting server! try again later.");
+      if (e is DioException) {
+        if (CancelToken.isCancel(e)) {
+          // Handle request cancellation
+          print("Request cancelled: ${e.message}");
+          CustomToast.errorToast(
+            "Connection Timeout",
+            "The internet connection is too weak. Please try again.",
+          );
+        } else {
+          // Handle other Dio-specific exceptions
+          print("DioException: ${e.message}");
+          Alert.infoDialog(
+              message:
+                  "The internet connection is too weak. Please try again.");
+          return;
+        }
+      } else {
+        // Handle any other type of exception
+        print("Unexpected error: $e");
+      }
       return null;
     }
   }
@@ -132,7 +187,7 @@ class $ {
                 // 'version-number': AppVar.VERSION_NUMBER.toString(),
               },
               validateStatus: (v) {
-                return v != null && v >= 200 && v <= 420;
+                return v != null && v >= 200 && v <= 430;
               }));
       log("${response.statusCode}");
       //================Zak edition =================
@@ -163,7 +218,7 @@ class $ {
                 // 'version-number': AppVar.VERSION_NUMBER.toString(),
               },
               validateStatus: (v) {
-                return v != null && v >= 200 && v <= 420;
+                return v != null && v >= 200 && v <= 430;
               }));
       //================Zak edition =================
       // if (response.statusCode == _RESPONSE_STATUS_AUTHORIZATION_ERROR)

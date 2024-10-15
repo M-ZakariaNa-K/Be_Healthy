@@ -125,8 +125,7 @@ class QrScanController extends GetxController {
     await cameraController?.start();
   } //=============================Server side================================================================
 
-  Future<void> sendToServerSide(
-      String qrCodeData) async {
+  Future<void> sendToServerSide(String qrCodeData) async {
     isLoading.value = true; // Show loading indicator
     try {
       // if (snapshot.data == ConnectivityResult.none) {
@@ -158,14 +157,20 @@ class QrScanController extends GetxController {
     }
   }
 
-  void onDetectBarcode(
-      String qrData) {
+  void onDetectBarcode(String qrData) {
     if (!isScanCompleted.value && !isLoading.value) {
       code.value = qrData;
+
+      isScanCompleted.value = true; // Mark scan as completed
       // Make POST request with scanned QR data
       sendToServerSide(qrData);
+      // Disable the scanner for 5 seconds before re-enabling
+      Future.delayed(const Duration(seconds: 3), () {
+        isScanCompleted.value = false; // Allow scanning again
+      });
     }
   }
+
   //--------------------------RESULT VIEW-----------------------------------------
   Future<void> showLottieAnimationFunction() async {
     // Show Lottie animation for 3 seconds

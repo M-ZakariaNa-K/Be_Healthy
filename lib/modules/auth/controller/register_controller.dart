@@ -8,8 +8,8 @@ import 'package:tracking_system_app/widgets/toast/custom_toast.dart';
 class RegisterController extends GetxController
     with GetSingleTickerProviderStateMixin {
   final TextEditingController fullNameController = TextEditingController();
-  final TextEditingController employeeNumberController =
-      TextEditingController();
+  // final TextEditingController employeeNumberController =
+  //     TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
@@ -29,7 +29,7 @@ class RegisterController extends GetxController
       final response = await $.post('/users/register', body: {
         "name": fullNameController.text,
         "phone": phoneNumberController.text,
-        "employee_number": employeeNumberController.text,
+        // "employee_number": employeeNumberController.text,
         "role":
             jopTitleController.selectedValue.value == 0 ? "worker" : "driver",
         "password": passwordController.text,
@@ -64,11 +64,11 @@ class RegisterController extends GetxController
       CustomToast.errorToast('Error', 'Please choose a job title');
       return;
     }
-    if (employeeNumberController.text.isEmpty) {
-      Get.closeAllSnackbars();
-      CustomToast.errorToast('Error', 'Please enter your employee number');
-      return;
-    }
+    // if (employeeNumberController.text.isEmpty) {
+    //   Get.closeAllSnackbars();
+    //   CustomToast.errorToast('Error', 'Please enter your employee number');
+    //   return;
+    // }
 
     if (phoneNumberController.text.isEmpty) {
       Get.closeAllSnackbars();
@@ -128,7 +128,7 @@ class RegisterController extends GetxController
     passwordController.dispose();
     confirmPasswordController.dispose();
     phoneNumberController.dispose();
-    employeeNumberController.dispose();
+    // employeeNumberController.dispose();
     jopTitleController.dispose();
     super.dispose();
   }
