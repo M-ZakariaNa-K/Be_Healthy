@@ -15,6 +15,7 @@ void main() async {
   sharedLoginToken = _pref.getString('token');
   if (sharedLoginToken != null) {
     $.token1 = sharedLoginToken;
+    $.role = _pref.getString('role');
   }
   runApp(const MyApp());
 }

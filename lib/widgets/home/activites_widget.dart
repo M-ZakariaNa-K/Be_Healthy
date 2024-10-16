@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:tracking_system_app/controller/life_cycle_controller.dart';
 import 'package:tracking_system_app/modules/home/controller/home_controller.dart';
 import 'package:tracking_system_app/modules/qr_scan/controller/qr_scan_controller.dart';
+import 'package:tracking_system_app/network_util.dart';
 import 'package:tracking_system_app/routes/app_pages.dart';
 import 'package:tracking_system_app/style/app_var.dart';
 import 'package:tracking_system_app/widgets/home/custom_activites_widget.dart';

@@ -19,6 +19,7 @@ class QrScanController extends GetxController {
   RxBool isScanCompleted = false.obs;
   RxBool isFlashOn = false.obs;
   RxString code = "".obs;
+  RxString gitQrScanUrl = "".obs;
   Rx<QrScanDataModel> qrScanModel = QrScanDataModel(
     customerName: "",
     bagId: 0,
@@ -128,17 +129,27 @@ class QrScanController extends GetxController {
   Future<void> sendToServerSide(String qrCodeData) async {
     isLoading.value = true; // Show loading indicator
     try {
-      // if (snapshot.data == ConnectivityResult.none) {
-      //   // Show an error message if there is no internet connection
-      //   CustomToast.errorToast("No Internet",
-      //       "Please check your internet connection and try again.");
-      //   isLoading.value = false; // Hide loading indicator
-      //   return; // Exit the method
-      // } else {
-      //DELETE FUTURE DELAYED WHEN U LINK WITH API
+      //-------------Worker-----------
+      if ($.role == "worker") {
+        if (scanningKind.value == "check_in") {
+          gitQrScanUrl.value = "${code.value}&screen=checkin_worker";
+        } else if (scanningKind.value == "check_out") {
+          gitQrScanUrl.value = "${code.value}&screen=checkout_worker";
+        }
+      }
+      //-------------Driver-----------
+      else if ($.role == "driver") {
+        if (scanningKind.value == "check_in") {
+          gitQrScanUrl.value = "${code.value}&screen=checkin_driver";
+        } else if (scanningKind.value == "delivered") {
+          gitQrScanUrl.value = "${code.value}&screen=delivered";
+        } else if (scanningKind.value == "check_out") {
+          gitQrScanUrl.value = "${code.value}&screen=checkout_driver";
+        }
+      }
 
       final response = await $.getQrScan(
-        code.value,
+        gitQrScanUrl.value,
       );
       if (response != null) {
         isScanCompleted.value = false;

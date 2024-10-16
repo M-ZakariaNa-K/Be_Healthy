@@ -212,13 +212,64 @@ class ForgetPasswordScreenTapletLayout
                                                   controller.fullNameController,
                                               validator: null,
                                             ),
+                                            // CustomeLoginTextFormField(
+                                            //   isFilledTextFild: false,
+                                            //   filledTextFildData: "",
+                                            //   prefixIcon: null,
+                                            //   inputType: TextInputType.text,
+                                            //   hintText: 'Phone Number',
+                                            //   title: 'Employee ID',
+                                            //   controller: controller
+                                            //       .phoneNumberController,
+                                            //   validator: null,
+                                            // ),
                                             CustomeLoginTextFormField(
                                               isFilledTextFild: false,
                                               filledTextFildData: "",
-                                              prefixIcon: null,
-                                              inputType: TextInputType.text,
                                               hintText: 'Phone Number',
-                                              title: 'Employee ID',
+                                              inputType: TextInputType.number,
+                                              title: 'Phone Number',
+                                              prefixIcon: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8.0),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Image.asset(
+                                                      'assets/images/uae_flag.png',
+                                                      width: 24,
+                                                      height: 24,
+                                                    ),
+                                                    const SizedBox(width: 5),
+                                                    Container(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 5),
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                              border: Border(
+                                                        right: BorderSide(
+                                                          color: AppVar
+                                                              .seconndTextColor,
+                                                          width: 1.0,
+                                                        ),
+                                                      )),
+                                                      child: const Text(
+                                                        '+971',
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: AppVar
+                                                              .seconndTextColor,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
                                               controller: controller
                                                   .phoneNumberController,
                                               validator: null,

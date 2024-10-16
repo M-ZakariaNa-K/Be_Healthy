@@ -21,7 +21,9 @@ class LoginController extends GetxController {
 
     // Validate phone number pattern
     final RegExp uaePhoneRegex =
-        RegExp(r'^(?:50|51|52|55|56|58|2|3|4|6|7|9)\d{7}$');
+        // RegExp(r'^(?:50|51|52|55|56|58|2|3|4|6|7|9)\d{7}$');
+        RegExp(r'^(?:5)\d{8}$');
+
     if (!uaePhoneRegex.hasMatch(phoneNumberController.text)) {
       Get.closeAllSnackbars();
       CustomToast.errorToast(
@@ -32,12 +34,12 @@ class LoginController extends GetxController {
     if (passwordController.text.isEmpty) {
       Get.closeAllSnackbars();
       CustomToast.errorToast('Error', 'Please enter your password');
-    
+
       return;
     } else if (passwordController.text.length < 6) {
       Get.closeAllSnackbars();
       CustomToast.errorToast('Error', 'Password must be at least 6 characters');
-    
+
       return;
     }
     // If all validations pass, proceed
@@ -67,8 +69,9 @@ class LoginController extends GetxController {
       // Get.back();
       if (response != null) {
         await $.setConnectionParams(
-            token: response['data']['token'],
-            userRole: response['data']['role']);
+          token: response['data']['token'],
+          userRole: response['data']['role'],
+        );
 
         // Navigate to Home page on successful login
         Get.offAllNamed(Routes.HOME);

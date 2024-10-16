@@ -13,7 +13,7 @@ import 'package:tracking_system_app/widgets/toast/custom_toast.dart';
 
 class $ {
   static String? token1;
-  // static String? role;
+  static String? role;
   // static const int _RESPONSE_STATUS_AUTHORIZATION_ERROR = 401;
   //change th the endpoint ZAK============================
 
@@ -56,7 +56,7 @@ class $ {
 
     try {
       // Start a timer to cancel the request after 10 seconds
-      Future.delayed(Duration(seconds: 10), () {
+      Future.delayed(const Duration(seconds: 10), () {
         if (!cancelToken.isCancelled) {
           cancelToken.cancel("Request cancelled due to slow connection.");
         }
@@ -261,6 +261,23 @@ class $ {
       Alert.infoDialog(
           message: tr(
               'Update required! please to update this application to the latest version'));
+    }
+    //if user regester to the app and he wasn't  verfied by admin
+    else if (statusCode == 403) {
+      dynamic body = response.data;
+
+      SharedPreferences.getInstance().then((_pref) {
+        _pref.remove('token');
+        _pref.remove('role');
+        sharedLoginToken = null;
+      });
+      token1 = "";
+      role = "";
+      Get.delete<HomeController>();
+      Get.offAllNamed(Routes.LOGIN);
+      // if (response["code"] == 200) {
+      Alert.infoDialog(message: "${body['message']}");
+      // }
     } else if (statusCode == 411) {
       alertAndExit(tr('Your account is not yet linked or not activiated!'));
       //ZAKARIA EDITION
@@ -299,10 +316,11 @@ class $ {
     }
     SharedPreferences.getInstance().then((_pref) {
       _pref.remove('token');
+      _pref.remove('role');
       sharedLoginToken = null;
     });
     token1 = "";
-    // role = "";
+    role = "";
     if (redirect) {
       Get.delete<HomeController>();
       Get.offAllNamed(Routes.LOGIN);
@@ -320,10 +338,11 @@ class $ {
     BASE_URL = "https://api.behealthy-dxb.com";
 
     token1 = token;
-    // role = userRole;
+    role = userRole;
 
     SharedPreferences _pref = await SharedPreferences.getInstance();
     _pref.setString('token', token1!);
+    _pref.setString('role', role!);
     return;
   }
 

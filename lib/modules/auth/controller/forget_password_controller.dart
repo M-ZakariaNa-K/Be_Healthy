@@ -31,7 +31,9 @@ class ForgetPasswordController extends GetxController {
 
     // Validate phone number pattern
     final RegExp uaePhoneRegex =
-        RegExp(r'^(?:50|51|52|55|56|58|2|3|4|6|7|9)\d{7}$');
+    // 'regex:/^(?:5)\d{8}$/'
+        // RegExp(r'^(?:50|51|52|55|56|58|2|3|4|6|7|9)\d{7}$');
+        RegExp(r'^(?:5)\d{8}$');
     if (!uaePhoneRegex.hasMatch(phoneNumberController.text)) {
       Get.closeAllSnackbars();
       CustomToast.errorToast(

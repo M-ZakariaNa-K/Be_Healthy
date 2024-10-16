@@ -37,7 +37,7 @@ class RegisterController extends GetxController
       });
 
       if (response != null) {
-        Future.delayed(const Duration(seconds: 5), () {
+        Future.delayed(const Duration(seconds: 3), () {
           isWaitAdminApproved.value = false;
           Get.offAllNamed(Routes.LOGIN);
         });
@@ -79,7 +79,9 @@ class RegisterController extends GetxController
 
     // Validate phone number pattern
     final RegExp uaePhoneRegex =
-        RegExp(r'^(?:50|51|52|55|56|58|2|3|4|6|7|9)\d{7}$');
+        // RegExp(r'^(?:50|51|52|55|56|58|2|3|4|6|7|9)\d{7}$');
+                RegExp(r'^(?:5)\d{8}$');
+
     if (!uaePhoneRegex.hasMatch(phoneNumberController.text)) {
       Get.closeAllSnackbars();
       CustomToast.errorToast(
