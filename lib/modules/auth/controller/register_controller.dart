@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:tracking_system_app/controller/radio_controller.dart';
 import 'package:tracking_system_app/network_util.dart';
 import 'package:tracking_system_app/routes/app_pages.dart';
+import 'package:tracking_system_app/widgets/general/main_loading_widget.dart';
 import 'package:tracking_system_app/widgets/toast/custom_toast.dart';
 
 class RegisterController extends GetxController
@@ -22,8 +23,17 @@ class RegisterController extends GetxController
   RxBool isWaitAdminApproved = false.obs;
   // late AnimationController lottieController;
   var isLoading = false.obs; // Add loading state
+
+  void showLoadingDialog() {
+    Get.dialog(
+      const Center(
+        child: MainLoadingWidget(),
+      ),
+      barrierDismissible: false, // Prevent dismissing by tapping outside
+    );
+  }
+
   Future<void> sendInfoToAdmin() async {
-    isWaitAdminApproved.value = true;
     try {
       // await $.flipIfDemo(email: emailC.text);
       final response = await $.post('/users/register', body: {
@@ -37,6 +47,8 @@ class RegisterController extends GetxController
       });
 
       if (response != null) {
+        isWaitAdminApproved.value = true;
+
         Future.delayed(const Duration(seconds: 3), () {
           isWaitAdminApproved.value = false;
           Get.offAllNamed(Routes.LOGIN);
@@ -80,7 +92,7 @@ class RegisterController extends GetxController
     // Validate phone number pattern
     final RegExp uaePhoneRegex =
         // RegExp(r'^(?:50|51|52|55|56|58|2|3|4|6|7|9)\d{7}$');
-                RegExp(r'^(?:5)\d{8}$');
+        RegExp(r'^(?:5)\d{8}$');
 
     if (!uaePhoneRegex.hasMatch(phoneNumberController.text)) {
       Get.closeAllSnackbars();
@@ -115,6 +127,7 @@ class RegisterController extends GetxController
     }
 
     // If all validations pass, proceed
+    showLoadingDialog();
     sendInfoToAdmin();
   }
 

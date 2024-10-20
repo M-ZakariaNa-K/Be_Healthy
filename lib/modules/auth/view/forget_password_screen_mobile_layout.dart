@@ -70,75 +70,76 @@ class ForgetPasswordScreenMobileLayout
                 SingleChildScrollView(
                   child: Obx(() {
                     if (controller.isWaitAdminApproved.value) {
-                      return Positioned(
-                        // bottom: MediaQuery.sizeOf(context).height * 0.15,
-                        right: 0,
-                        left: 0,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            if (!isLandscape) const SizedBox(height: 20),
-                            if (!isLandscape)
-                              Center(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(1000),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(1000),
-                                        color: AppVar.background,
-                                        border: Border.all(
-                                            width: 3, color: AppVar.primary)),
-                                    width: 150,
-                                    height: 150,
-                                    child: Image.asset(
-                                      "assets/images/Logo1.png",
-                                      fit: BoxFit.fill,
-                                    ),
+                      return
+                          // Positioned(
+                          //   // bottom: MediaQuery.sizeOf(context).height * 0.15,
+                          //   right: 0,
+                          //   left: 0,
+                          // child:
+                          Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          if (!isLandscape) const SizedBox(height: 20),
+                          if (!isLandscape)
+                            Center(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(1000),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(1000),
+                                      color: AppVar.background,
+                                      border: Border.all(
+                                          width: 3, color: AppVar.primary)),
+                                  width: 150,
+                                  height: 150,
+                                  child: Image.asset(
+                                    "assets/images/Logo1.png",
+                                    fit: BoxFit.fill,
                                   ),
                                 ),
                               ),
-                            Center(
-                              child: LottieBuilder.asset(
-                                "assets/Lottie/Animation - 1726871315481.json",
-                                width: 200,
-                                height: 200,
-                                repeat: false,
-                                fit: BoxFit.fill,
-                              ),
                             ),
-                            if (!isLandscape) const SizedBox(height: 20),
-                            const Text(
-                              "Done!",
+                          Center(
+                            child: LottieBuilder.asset(
+                              "assets/Lottie/Animation - 1726871315481.json",
+                              width: 200,
+                              height: 200,
+                              repeat: false,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          if (!isLandscape) const SizedBox(height: 20),
+                          const Text(
+                            "Done!",
+                            style: TextStyle(
+                              color: Color(0xff1CB26B),
+                              fontSize: 30,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          Container(
+                            margin: const EdgeInsets.symmetric(vertical: 20),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 15),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 1,
+                                color: const Color(0xff1CB26B),
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Text(
+                              "Waiting for admin approval",
                               style: TextStyle(
-                                color: Color(0xff1CB26B),
-                                fontSize: 30,
+                                color: AppVar.seconndTextColor,
+                                fontSize: 16,
                               ),
                               textAlign: TextAlign.center,
                             ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(vertical: 20),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 15),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                  color: const Color(0xff1CB26B),
-                                ),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: const Text(
-                                "Waiting for admin approval",
-                                style: TextStyle(
-                                  color: AppVar.seconndTextColor,
-                                  fontSize: 16,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
+                        // ),
                       );
                     } else {
                       return Container();
@@ -240,47 +241,56 @@ class ForgetPasswordScreenMobileLayout
                                           //       .phoneNumberController,
                                           //   validator: null,
                                           // ),
-                                             CustomeLoginTextFormField(
-            isFilledTextFild: false,
-            filledTextFildData: "",
-            hintText: 'Phone Number',
-            inputType: TextInputType.number,
-            title: 'Phone Number',
-            prefixIcon: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.asset(
-                    'assets/images/uae_flag.png',
-                    width: 24,
-                    height: 24,
-                  ),
-                  const SizedBox(width: 5),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    decoration: const BoxDecoration(
-                        border: Border(
-                      right: BorderSide(
-                        color: AppVar.seconndTextColor,
-                        width: 1.0,
-                      ),
-                    )),
-                    child: const Text(
-                      '+971',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: AppVar.seconndTextColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            controller: controller.phoneNumberController,
-            validator: null,
-          ),
+                                          CustomeLoginTextFormField(
+                                            isFilledTextFild: false,
+                                            filledTextFildData: "",
+                                            hintText: 'Phone Number',
+                                            inputType: TextInputType.number,
+                                            title: 'Phone Number',
+                                            prefixIcon: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8.0),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Image.asset(
+                                                    'assets/images/uae_flag.png',
+                                                    width: 24,
+                                                    height: 24,
+                                                  ),
+                                                  const SizedBox(width: 5),
+                                                  Container(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 5),
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                            border: Border(
+                                                      right: BorderSide(
+                                                        color: AppVar
+                                                            .seconndTextColor,
+                                                        width: 1.0,
+                                                      ),
+                                                    )),
+                                                    child: const Text(
+                                                      '+971',
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: AppVar
+                                                            .seconndTextColor,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            controller: controller
+                                                .phoneNumberController,
+                                            validator: null,
+                                          ),
                                           CustomeLoginTextFormField(
                                             prefixIcon: null,
                                             inputType: TextInputType.text,

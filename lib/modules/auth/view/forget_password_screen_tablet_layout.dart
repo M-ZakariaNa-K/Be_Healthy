@@ -56,72 +56,88 @@ class ForgetPasswordScreenTapletLayout
                     ),
                   // Waiting for admin approval (Lottie Animation)
                   Obx(() {
+                    // if (controller.isLoading.value) {
+                    //   if (Get.isDialogOpen!) {
+                    //     Get.back(); // Close any open dialog before opening a new one
+                    //   }
+                    //   // Show loading dialog with a circular progress indicator
+                    //   Get.dialog(
+                    //     const Center(
+                    //       child: MainLoadingWidget(),
+                    //     ),
+                    //     barrierDismissible:
+                    //         false, // Prevent dismissing the dialog by tapping outside
+                    //   );
+                    // }
+
                     if (controller.isWaitAdminApproved.value) {
-                      return Positioned(
-                        bottom: MediaQuery.sizeOf(context).height * 0.15,
-                        right: 0,
-                        left: 0,
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 20),
-                            Center(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(1000),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(1000),
-                                      color: AppVar.background,
-                                      border: Border.all(
-                                          width: 3, color: AppVar.primary)),
-                                  width: 150,
-                                  height: 150,
-                                  child: Image.asset(
-                                    "assets/images/Logo1.png",
-                                    fit: BoxFit.fill,
-                                  ),
+                      return
+                          //  Positioned(
+                          //   bottom: MediaQuery.sizeOf(context).height * 0.15,
+                          //   right: 0,
+                          //   left: 0,
+                          // child:
+                          Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(1000),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(1000),
+                                    color: AppVar.background,
+                                    border: Border.all(
+                                        width: 3, color: AppVar.primary)),
+                                width: 150,
+                                height: 150,
+                                child: Image.asset(
+                                  "assets/images/Logo1.png",
+                                  fit: BoxFit.fill,
                                 ),
                               ),
                             ),
-                            Center(
-                              child: LottieBuilder.asset(
-                                "assets/Lottie/Animation - 1726871315481.json",
-                                width: 200,
-                                height: 200,
-                                repeat: false,
-                                fit: BoxFit.fill,
-                              ),
+                          ),
+                          Center(
+                            child: LottieBuilder.asset(
+                              "assets/Lottie/Animation - 1726871315481.json",
+                              width: 200,
+                              height: 200,
+                              repeat: false,
+                              fit: BoxFit.fill,
                             ),
-                            const SizedBox(height: 20),
-                            const Text(
-                              "Done!",
+                          ),
+                          const SizedBox(height: 20),
+                          const Text(
+                            "Done!",
+                            style: TextStyle(
+                              color: Color(0xff1CB26B),
+                              fontSize: 30,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          Container(
+                            margin: const EdgeInsets.symmetric(vertical: 20),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 15),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 1,
+                                color: const Color(0xff1CB26B),
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Text(
+                              "Waiting for admin approval",
                               style: TextStyle(
-                                color: Color(0xff1CB26B),
-                                fontSize: 30,
+                                color: AppVar.seconndTextColor,
+                                fontSize: 16,
                               ),
                               textAlign: TextAlign.center,
                             ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(vertical: 20),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 15),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                  color: const Color(0xff1CB26B),
-                                ),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: const Text(
-                                "Waiting for admin approval",
-                                style: TextStyle(
-                                  color: AppVar.seconndTextColor,
-                                  fontSize: 16,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
+                        // ),
                       );
                     } else {
                       return Container();
@@ -277,7 +293,7 @@ class ForgetPasswordScreenTapletLayout
                                             CustomeLoginTextFormField(
                                               prefixIcon: null,
                                               inputType: TextInputType.text,
-                                              hintText: 'Phone Number',
+                                              hintText: 'Password',
                                               title: 'Password',
                                               controller:
                                                   controller.passwordController,
@@ -320,6 +336,7 @@ class ForgetPasswordScreenTapletLayout
                                                     if (controller
                                                         .formKey.currentState!
                                                         .validate()) {
+                   
                                                       controller.validateForm();
                                                     }
                                                   },
