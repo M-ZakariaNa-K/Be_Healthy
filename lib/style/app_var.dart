@@ -38,16 +38,24 @@ class AppVar {
   static Transition mainTransation = Transition.rightToLeft;
 
   static ThemeData lightTheme = ThemeData(
-    brightness: Brightness.light,
-    primaryColor: Color(0xFF0F663C),
-    textTheme: _textTheme(),
-  );
+      brightness: Brightness.light,
+      primaryColor: const Color(0xFF0F663C),
+      textTheme: _textTheme(),
+      textSelectionTheme: TextSelectionThemeData(
+        selectionHandleColor: AppVar.primaryExtraSoft,
+        selectionColor: AppVar.primarySoft,
+        cursorColor: AppVar.primary,
+      ));
 
   static ThemeData darkTheme = ThemeData(
-    brightness: Brightness.dark,
-    primaryColor: Color(0xFF0F663C),
-    textTheme: _textTheme(),
-  );
+      brightness: Brightness.dark,
+      primaryColor: const Color(0xFF0F663C),
+      textTheme: _textTheme(),
+      textSelectionTheme: TextSelectionThemeData(
+        selectionHandleColor: AppVar.primaryExtraSoft,
+        selectionColor: AppVar.primarySoft,
+        cursorColor: AppVar.primary,
+      ));
 
   static TextTheme _textTheme() {
     return const TextTheme(
