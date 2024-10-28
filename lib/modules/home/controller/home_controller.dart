@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tracking_system_app/model/customers_list_model.dart';
 import 'package:tracking_system_app/model/my_info_model.dart';
 import 'package:tracking_system_app/network_util.dart';
 import 'package:tracking_system_app/widgets/home/custome_message_dialog.dart';
@@ -11,10 +12,18 @@ class HomeController extends GetxController {
   final TextEditingController issueDialogController = TextEditingController();
   RxBool isTextFildFilled = false.obs;
   RxBool isLoading = false.obs;
+  RxBool isMyInfoLoading = false.obs;
   RxBool showLottieAnimation = false.obs;
   Rx<MyInfoDataModel> myInfoModel = MyInfoDataModel(
           id: 0, name: "", phone: "", employeeNumber: "", image: null, role: "")
       .obs;
+  //==============Zak's Editation=======================
+  RxBool isDocumentsIconPressed = false.obs;
+  // to toggle the visibility of the dropdown items
+  RxBool isDropdownOpen = false.obs;
+  RxList<CustomerListDataModel> filteredCustomers =
+      <CustomerListDataModel>[].obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -23,7 +32,7 @@ class HomeController extends GetxController {
 
 //===========================================My Info========================================
   Future<void> initialize() async {
-    isLoading.value = true;
+    isMyInfoLoading.value = true;
     try {
       var response = await $.get('users/my-info');
       print(response);
@@ -35,7 +44,7 @@ class HomeController extends GetxController {
       print("Error: $e");
       CustomToast.errorToast("Opps..", "Failed to load my info");
     } finally {
-      isLoading.value = false;
+      isMyInfoLoading.value = false;
     }
   }
 //===========================================Messaging dialog================================================================
@@ -130,4 +139,49 @@ class HomeController extends GetxController {
       isLoading.value = false;
     }
   }
+
+  // list for filtered search results
+
+  // Method to toggle dropdown visibility
+  void toggleDropdown() {
+    isDropdownOpen.value = !isDropdownOpen.value;
+  }
+
+  // // Method to select an item and close the dropdown
+  // void selectItem(DocumentTypeModel item) {
+  //   selectedDocumentType.value = item;
+  //   // myDocumentsController.choosenRecentUploadedDocumentType.value = item.name;
+  //   isDropdownOpen.value = false; // Close the dropdown after selecting
+  //   filteredDocumentTypes.value = documentTypesList; // Reset filter
+  //   // searchController.text = selectedDocumentType.value.name;
+  //   // Show date pickers if specific document type is selected
+  //   // showDatePickers.value = (item.expirable == true);
+  // }
+  RxBool isCustomersLoading = false.obs;
+  RxList<CustomerListDataModel> customersList = <CustomerListDataModel>[].obs;
+  Future initializeCustomersTypes() async {
+    isCustomersLoading.value = true;
+
+    var data = await $
+        .get('customers/list?state=active&driver_id=${myInfoModel.value.id}');
+    if (data != null) {
+      customersList.value = (data['data'] as List)
+          .map((e) => CustomerListDataModel.fromJson(e))
+          .toList();
+    }
+    isCustomersLoading.value = false;
+    // isDocumentsTypesInitialized.value = true;
+  }
+
+  // // Method to filter search results
+  // void filterItems(String query) {
+  //   if (query.isEmpty) {
+  //     filteredCustomers.value = filteredCustomers;
+  //   } else {
+  //     filteredCustomers.value = filteredCustomers
+  //         .where(
+  //             (item) => item.name.toLowerCase().contains(query.toLowerCase()))
+  //         .toList();
+  //   }
+  // }
 }
