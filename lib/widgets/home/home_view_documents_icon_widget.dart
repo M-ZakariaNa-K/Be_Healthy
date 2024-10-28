@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tracking_system_app/modules/home/controller/home_controller.dart';
-import 'package:tracking_system_app/style/app_var.dart';
 import 'package:tracking_system_app/widgets/home/customers_list_widget.dart';
 
 class HomeViewCustomersIconWidget extends StatelessWidget {

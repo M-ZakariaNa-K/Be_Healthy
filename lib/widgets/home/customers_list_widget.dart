@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tracking_system_app/modules/home/controller/home_controller.dart';
-import 'package:tracking_system_app/widgets/general/main_loading_widget.dart';
 
 class CustomersListWidget extends StatelessWidget {
   const CustomersListWidget({
