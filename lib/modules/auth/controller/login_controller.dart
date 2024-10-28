@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tracking_system_app/alert.dart';
+import 'package:tracking_system_app/helpers/helpers.dart';
 import 'package:tracking_system_app/network_util.dart';
 import 'package:tracking_system_app/routes/app_pages.dart';
 import 'package:tracking_system_app/widgets/general/main_loading_widget.dart';
@@ -68,14 +69,21 @@ class LoginController extends GetxController {
       });
       // Get.back();
       if (response != null) {
-        await $.setConnectionParams(
-          token: response['data']['token'],
-          userRole: response['data']['role'],
-        );
-
-        // Navigate to Home page on successful login
-        Get.offAllNamed(Routes.HOME);
-        Alert.toast('Logged in successfully');
+        //TO PREVENT THE ADMIN TO SIGN IN TO APP
+        if (response['data']['role'] == "admin") {
+          Get.offAllNamed(Routes.LOGIN);
+          Alert.infoDialog(
+              message:
+                  tr('Admins do not have permissions to sign this app in.'));
+        } else {
+          await $.setConnectionParams(
+            token: response['data']['token'],
+            userRole: response['data']['role'],
+          );
+          // Navigate to Home page on successful login
+          Get.offAllNamed(Routes.HOME);
+          Alert.toast('Logged in successfully');
+        }
       }
 
       isLoading.value = false;
