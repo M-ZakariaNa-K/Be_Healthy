@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tracking_system_app/modules/home/controller/home_controller.dart';
+import 'package:tracking_system_app/network_util.dart';
 import 'package:tracking_system_app/style/app_var.dart';
 import 'package:tracking_system_app/widgets/general/main_loading_widget.dart';
 import 'package:tracking_system_app/widgets/home/activites_widget.dart';
@@ -27,7 +28,8 @@ class HomeView extends StatelessWidget {
     return SafeArea(
       child: Obx(() {
         if (homeController.isMyInfoLoading.value) {
-          return const Scaffold(body: MainLoadingWidget());
+          return const Scaffold(
+              backgroundColor: Colors.white, body: MainLoadingWidget());
         }
         return Stack(
           children: [
@@ -93,33 +95,34 @@ class HomeView extends StatelessWidget {
                       color: AppVar.seconndTextColor,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Obx(
-                      () => GestureDetector(
-                        onTap: () {
-                          homeController.isDocumentsIconPressed.value =
-                              !homeController.isDocumentsIconPressed.value;
-                          homeController.initializeCustomersTypes();
-                        },
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 100),
-                          width: homeController.isDocumentsIconPressed.value
-                              ? 28
-                              : 23,
-                          height: homeController.isDocumentsIconPressed.value
-                              ? 28
-                              : 23,
-                          child: Image.asset(
-                            color: Colors.white,
-                            "assets/images/customer.png",
-                            // "assets/images/documents_icon.png",
-                            fit: BoxFit.cover,
+                  if ($.role != "worker")
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Obx(
+                        () => GestureDetector(
+                          onTap: () {
+                            homeController.isDocumentsIconPressed.value =
+                                !homeController.isDocumentsIconPressed.value;
+                            homeController.initializeCustomersTypes();
+                          },
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 100),
+                            width: homeController.isDocumentsIconPressed.value
+                                ? 28
+                                : 23,
+                            height: homeController.isDocumentsIconPressed.value
+                                ? 28
+                                : 23,
+                            child: Image.asset(
+                              color: Colors.white,
+                              "assets/images/customer.png",
+                              // "assets/images/documents_icon.png",
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
                 ],
               ),
 
