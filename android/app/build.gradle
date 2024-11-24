@@ -7,7 +7,8 @@ plugins {
 
 android {
     namespace = "com.example.tracking_system_app"
-    compileSdk = flutter.compileSdkVersion
+    //last
+    compileSdk = 34
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

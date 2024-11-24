@@ -45,7 +45,7 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	    <!-- Add these lines for camera library permissions -->
+	<!-- Add these lines for camera library permissions -->
     <key>NSCameraUsageDescription</key>
     <string>This app needs camera access to scan QR codes</string>
     <!-- Access Photos Permission -->
@@ -58,6 +58,8 @@
         <key>NSAllowsArbitraryLoads</key>
         <true/>
     </dict>
-
+	<!-- Internet Access (Optional) 2 last zak-->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need your location for network monitoring</string>
 </dict>
 </plist>
