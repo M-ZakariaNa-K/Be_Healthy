@@ -2,7 +2,7 @@ class CustomerListDataModel {
   int id;
   String name;
   String address;
-  String phone;
+  String? phone;
   String driverName;
   String state;
   int reservedBags;
@@ -24,7 +24,7 @@ class CustomerListDataModel {
       id: json['id'] as int,
       name: json['name'] as String,
       address: json['address'] as String,
-      phone: json['phone'] as String,
+      phone: json['phone'] as String?,
       driverName: json['driver_name'] as String,
       state: json['state'] as String,
       reservedBags: json['reserved_bags'] as int,

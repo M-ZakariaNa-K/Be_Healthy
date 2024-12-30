@@ -11,7 +11,7 @@ class LoginScreenMobileLayout extends GetView<LoginController> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        // resizeToAvoidBottomInset: false,
         backgroundColor:
             MediaQuery.of(context).orientation == Orientation.landscape
                 ? AppVar.primary

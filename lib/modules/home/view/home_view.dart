@@ -257,18 +257,34 @@ class HomeView extends StatelessWidget {
             /*The background with opacity*/
             Obx(() {
               if (homeController.isCustomersLoading.value) {
-                return Center(
-                    child: Opacity(
-                  opacity: 0.9,
-                  child: Container(
-                      height: screenHeight,
-                      width: screenWidth,
-                      color: const Color(0xffD4D4D4),
+                return Stack(
+                  children: [
+                    Center(
+                        child: Opacity(
+                      opacity: 0.9,
+                      child: Container(
+                          height: screenHeight,
+                          width: screenWidth,
+                          color: const Color(0xffD4D4D4),
 
-                      // color: AppVar.primaryExtraSoft,
-                      padding: const EdgeInsets.all(40),
-                      child: const MainLoadingWidget()),
-                ));
+                          // color: AppVar.primaryExtraSoft,
+                          padding: const EdgeInsets.all(40),
+                          child: const MainLoadingWidget()),
+                    )),
+                    Positioned(
+                      left: 0,
+                      child: IconButton(
+                        color: Colors.white,
+                        onPressed: () {
+                          // Get.back();
+                          homeController.isDocumentsIconPressed.value =
+                              !homeController.isDocumentsIconPressed.value;
+                        },
+                        icon: const Icon(Icons.arrow_back_ios_new),
+                      ),
+                    ),
+                  ],
+                );
               }
               return HomeViewCustomersIconWidget(controller: homeController);
             }),

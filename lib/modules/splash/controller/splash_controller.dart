@@ -38,8 +38,14 @@ class SplashController extends GetxController
     animationController.forward();
 
     // Navigate to login after a delay
-    Future.delayed(const Duration(seconds: 5), () {
+    /* Future.delayed(const Duration(seconds: 5), () {
       Get.offNamed(Routes.LOGIN);
+    });*/
+
+    animationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        Get.offNamed(Routes.LOGIN);
+      }
     });
   }
 
